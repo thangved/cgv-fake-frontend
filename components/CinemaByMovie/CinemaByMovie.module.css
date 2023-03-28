@@ -1,0 +1,43 @@
+.wrapper {
+	margin: 40px 0;
+}
+
+.cinema {
+	padding: 10px 20px;
+	background: var(--primary);
+	color: #fff;
+	width: max-content;
+	min-width: 200px;
+	max-width: 100%;
+	border-left: 10px solid #000;
+}
+
+.inner {
+	padding: 30px 20px;
+	border: 1px solid #ddd;
+	display: flex;
+	align-items: center !important;
+	margin: 0 !important;
+}
+
+.times {
+	display: flex;
+	margin: -5px;
+}
+
+.time {
+	text-decoration: none;
+	padding: 5px 10px;
+	color: #000;
+	border: 1px solid #ddd;
+	margin: 5px;
+}
+
+.time:hover {
+	color: var(--primary);
+	border-color: var(--primary);
+}
+
+.wrapper h4 {
+	padding: 10px 0;
+}

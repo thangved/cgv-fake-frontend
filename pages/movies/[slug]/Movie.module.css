@@ -1,0 +1,72 @@
+.wrapper {
+	padding-top: 60px;
+}
+
+.thumbnail {
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.playButton {
+	color: #fff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+}
+
+.playButton:hover {
+	opacity: 0.8;
+}
+
+.title,
+.brief {
+	font-weight: normal;
+}
+
+.brief {
+	color: #aaa;
+}
+
+.details {
+	padding: 20px 0;
+}
+
+.details div {
+	margin: 10px 0;
+}
+
+.details .label {
+	color: #aaa;
+}
+
+.wrapper h3 {
+	margin: 20px 0;
+	padding-bottom: 5px;
+	position: relative;
+}
+
+.wrapper h3::before {
+	content: '';
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 50px;
+	height: 2px;
+	background: var(--primary);
+}
+
+.content {
+	text-align: justify;
+}
+
+.content p {
+	margin: 10px 0;
+}

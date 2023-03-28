@@ -1,0 +1,18 @@
+.wrapper {
+	display: flex;
+	align-items: center;
+	border: 1px solid #ddd;
+	padding: 10px;
+	-o-border-radius: 100px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	-ms-border-radius: 100px;
+	border-radius: 100px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.wrapper span {
+	display: inline-block;
+	margin-left: 10px;
+}

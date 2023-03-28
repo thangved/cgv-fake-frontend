@@ -1,0 +1,9 @@
+.wrapper {
+	display: block;
+	width: 100%;
+	outline: none;
+	padding: 10px;
+	border: 1px solid #ddd;
+	background: none;
+	color: #333;
+}

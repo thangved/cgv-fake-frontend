@@ -1,0 +1,81 @@
+.wrapper {
+	width: 100%;
+}
+
+.labels {
+	position: relative;
+}
+
+.labels::before {
+	content: '';
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	bottom: 0;
+	background: #eee;
+	z-index: -1;
+}
+
+.label {
+	display: inline-block;
+	padding: 20px 0;
+	text-transform: uppercase;
+	cursor: pointer;
+	user-select: none;
+	color: #aaa;
+	-o-transition: 0.4s ease;
+	-webkit-transition: 0.4s ease;
+	-moz-transition: 0.4s ease;
+	-ms-transition: 0.4s ease;
+	transition: 0.4s ease;
+	position: relative;
+}
+
+.label.active,
+.label:hover {
+	color: #000;
+}
+
+.label::before {
+	content: '';
+	display: block;
+	position: absolute;
+	width: 0;
+	height: 2px;
+	background: var(--primary);
+	left: 50%;
+	bottom: 0;
+	-webkit-transform: translate(-50%);
+	-moz-transform: translate(-50%);
+	-ms-transform: translate(-50%);
+	-o-transform: translate(-50%);
+	transform: translate(-50%);
+	-webkit-transition: 0.4s ease;
+	-moz-transition: 0.4s ease;
+	-ms-transition: 0.4s ease;
+	-o-transition: 0.4s ease;
+	transition: 0.4s ease;
+}
+
+.label.active::before,
+.label:hover::before {
+	width: 100%;
+}
+
+.label + .label {
+	margin-left: 20px;
+}
+
+.content {
+	-webkit-animation: animate 0.5s ease;
+	animation: animate 0.5s ease;
+}
+
+@keyframes animate {
+	from {
+		opacity: 0;
+	}
+	to {
+	}
+}

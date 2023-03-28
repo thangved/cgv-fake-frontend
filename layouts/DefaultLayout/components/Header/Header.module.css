@@ -1,0 +1,99 @@
+.wrapper {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	background: #fff;
+}
+
+.navbar {
+	height: 50px;
+	background: #000;
+}
+
+.navbar {
+	justify-content: start;
+}
+
+.navbar > * > * > a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	padding: 0 20px;
+	min-width: 200px;
+	color: #fff;
+	text-decoration: none;
+	position: relative;
+	text-transform: uppercase;
+}
+
+.navbar > * > * > a:first-child::before {
+	display: none;
+}
+
+.navbar > * > * > a::before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: -0.5px;
+	top: 50%;
+	-o-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+
+	width: 1px;
+	height: 20%;
+	background: #fff;
+}
+
+.navbar > * > * > a:hover > * {
+	color: var(--primary);
+}
+
+.navbar > * > * > a span + * {
+	margin-left: 10px;
+}
+
+.mega {
+	position: absolute;
+	left: 0;
+	top: 100%;
+	background: #000;
+	padding: 20px;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: 0.4s ease;
+	-moz-transition: 0.4s ease;
+	-ms-transition: 0.4s ease;
+	-o-transition: 0.4s ease;
+	transition: 0.4s ease;
+}
+
+.navbar > * > * > a:hover + .mega,
+.mega:hover {
+	visibility: visible;
+	opacity: 1;
+}
+
+.mega h4 {
+	margin: 20px 0;
+	margin-top: 0;
+	padding-bottom: 5px;
+	position: relative;
+	color: #fff;
+}
+
+.mega h4::before {
+	content: '';
+	display: block;
+	position: absolute;
+	width: 50px;
+	height: 2px;
+	background: var(--primary);
+	bottom: 0;
+}

@@ -1,0 +1,32 @@
+.wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #00000090;
+}
+
+.modal {
+	background: #fff;
+	width: 100%;
+	max-width: 700px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.title {
+	padding: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.body {
+	padding: 20px;
+}

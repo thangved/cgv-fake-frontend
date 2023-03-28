@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import CinemaByMovie from '@/components/CinemaByMovie';
 import Input from '@/components/Input';
+import Modal from '@/components/Modal';
 import MovieCard from '@/components/MovieCard';
 import Select from '@/components/Select';
 import cinemaShows from '@/mock/cinemaShows';
@@ -9,12 +10,15 @@ import { faCirclePlay, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useState } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Container, Row } from 'react-grid-system';
-
+import ReactPlayer from 'react-player';
 import styles from './Movie.module.css';
 
 const Movie = () => {
+	const [showTrailer, setShowTrailer] = useState(false);
+
 	return (
 		<Container className={styles.wrapper}>
 			<Head>
@@ -36,10 +40,26 @@ const Movie = () => {
 										icon={faCirclePlay}
 										className={styles.playButton}
 										size="4x"
+										onClick={() => setShowTrailer(true)}
 									/>
 								</div>
 							</AspectRatio>
 						</Col>
+
+						<Modal
+							open={showTrailer}
+							title="SHAZAM! FURY OF THE GODS"
+							onClose={() => setShowTrailer(false)}
+						>
+							<AspectRatio ratio={16 / 9}>
+								<ReactPlayer
+									controls
+									width="100%"
+									height="100%"
+									url="https://www.youtube.com/watch?v=l37LjoV9W7M"
+								/>
+							</AspectRatio>
+						</Modal>
 
 						<Col xs={12} md={9}>
 							<h2 className={styles.title}>

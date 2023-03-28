@@ -9,9 +9,9 @@
 	color: #fff;
 }
 
-.main > * {
-	width: 100%;
-	height: 100%;
+.full {
+	width: 100% !important;
+	height: 100% !important;
 }
 
 .room {
@@ -19,8 +19,8 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	height: 100%;
+	min-width: 100%;
+	min-height: 100%;
 }
 
 .screen {
@@ -39,24 +39,67 @@
 	-o-border-radius: 100px;
 	border-radius: 100px;
 	position: relative;
-	perspective: 30px;
+	perspective: 10px;
 }
 
 .line::before {
 	content: '';
 	display: block;
 	position: absolute;
-	top: 100%;
+	top: 50%;
 	left: 0;
 	width: 100%;
-	height: 20px;
-	background: linear-gradient(#dbf5ff, #a9f2ff00);
+	height: 50px;
+	background: linear-gradient(#ffffff86, #ffffff00);
 	transform-origin: top;
-	transform: rotate3d(1, 0, 0, 10deg);
 	-webkit-transform: rotate3d(1, 0, 0, 10deg);
 	-moz-transform: rotate3d(1, 0, 0, 10deg);
 	-ms-transform: rotate3d(1, 0, 0, 10deg);
 	-o-transform: rotate3d(1, 0, 0, 10deg);
+	transform: rotate3d(1, 0, 0, 10deg);
+}
+
+.seats {
+	display: flex;
+	position: relative;
+}
+
+.seat {
+	width: 36px;
+	height: 36px;
+	border: 1px solid var(--seat-color);
+	color: var(--seat-color);
+	font-size: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	margin: 5px 1px;
+	cursor: pointer;
+	user-select: none;
+	background: transparent;
+}
+
+.seat:hover {
+	opacity: 0.8;
+}
+.seat.selected {
+	background: var(--seat-color);
+	color: #fff;
+}
+
+.seat.booked {
+	background: #ffffff05;
+	border: none;
+	color: #fff;
+}
+
+.seat.booked:hover {
+	cursor: default;
 }
 
 .footer {

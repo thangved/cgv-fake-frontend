@@ -1,6 +1,6 @@
 .wrapper,
 .wrapper:hover {
-	padding: 15px 30px;
+	padding: 10px 30px;
 	background: var(--primary);
 	color: #fff;
 	border: 1px solid transparent;

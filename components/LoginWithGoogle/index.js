@@ -7,6 +7,8 @@ import { auth } from '@/firebase';
 import { useState } from 'react';
 import LoadingOverlay from '../LoadingOverlay';
 import styles from './LoginWithGoogle.module.css';
+import AuthService from '@/services/auth.service';
+import token from '@/utils/token';
 
 const provider = new GoogleAuthProvider();
 
@@ -17,7 +19,14 @@ const LoginWithGoogle = () => {
 		try {
 			setLoading(true);
 			const result = await signInWithPopup(auth, provider);
-			console.log(result);
+
+			const accessToken = result.user.accessToken;
+
+			const res = await AuthService.login({ accessToken });
+
+			token.token = res.accessToken;
+
+			window.location.reload();
 		} catch (error) {
 			console.log(error);
 		} finally {

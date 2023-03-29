@@ -10,8 +10,11 @@ import movies from '@/mock/movies';
 
 import { Col, Container, Row } from 'react-grid-system';
 import styles from './Header.module.css';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+	const currentUser = useSelector((state) => state.user.value);
+
 	return (
 		<div className={styles.wrapper}>
 			<Container>
@@ -20,7 +23,20 @@ const Header = () => {
 						<img src={Images.logo} width={200} alt="CGV Fake" />
 					</Link>
 
-					<LoginWithGoogle />
+					{currentUser ? (
+						<Link href="/account" className={styles.account}>
+							<img
+								width={30}
+								style={{ borderRadius: 5 }}
+								src={currentUser.avatar}
+								alt={currentUser.fullName}
+							/>
+
+							<h6>{currentUser.fullName}</h6>
+						</Link>
+					) : (
+						<LoginWithGoogle />
+					)}
 				</Row>
 			</Container>
 

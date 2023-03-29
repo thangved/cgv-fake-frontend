@@ -9,7 +9,13 @@ import Tabs from '@/components/Tabs';
 import banners from '@/mock/banners';
 import movies from '@/mock/movies';
 
-export default function Home() {
+export async function getStaticProps() {
+	return {
+		props: { movies },
+	};
+}
+
+export default function Home({ movies }) {
 	return (
 		<>
 			<Head>

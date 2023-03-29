@@ -17,7 +17,9 @@ const MovieCard = ({ details, ratio = 1.7, dark = false }) => {
 				ratio={ratio}
 				className={styles.image}
 				style={{
-					backgroundImage: `url(${details.image})`,
+					backgroundImage: `url(${
+						details.image || details.horThumbnail
+					})`,
 				}}
 			>
 				<div className={styles.overlay}>

@@ -15,7 +15,10 @@ const Tabs = ({ items = [], initialIndex = 0 }) => {
 						className={clsx(styles.label, {
 							[styles.active]: currentIndex === index,
 						})}
-						onClick={() => setCurrentIndex(index)}
+						onClick={() => {
+							if (e.onClick) return e.onClick();
+							setCurrentIndex(index);
+						}}
 					>
 						{e.label}
 					</div>

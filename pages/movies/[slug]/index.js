@@ -104,6 +104,7 @@ const Movie = ({ movieDetais, cinemaShows, showNows }) => {
 									controls
 									width="100%"
 									height="100%"
+									playing
 									url={movieDetais.trailer}
 								/>
 							</AspectRatio>

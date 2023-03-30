@@ -9,11 +9,13 @@ import LoadingOverlay from '../LoadingOverlay';
 import styles from './LoginWithGoogle.module.css';
 import AuthService from '@/services/auth.service';
 import token from '@/utils/token';
+import { useRouter } from 'next/router';
 
 const provider = new GoogleAuthProvider();
 
 const LoginWithGoogle = () => {
 	const [loading, setLoading] = useState(false);
+	const router = useRouter();
 
 	const handleLogin = async () => {
 		try {
@@ -25,8 +27,7 @@ const LoginWithGoogle = () => {
 			const res = await AuthService.login({ accessToken });
 
 			token.token = res.accessToken;
-
-			window.location.reload();
+			router.reload();
 		} catch (error) {
 			console.log(error);
 		} finally {

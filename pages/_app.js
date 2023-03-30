@@ -1,7 +1,7 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
 import AuthService from '@/services/auth.service';
 import { store } from '@/store';
-import { auth, setValue } from '@/store/userSlice';
+import { checked, setValue } from '@/store/userSlice';
 import '@/styles/globals.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -12,20 +12,24 @@ config.autoAddCss = false;
 
 const AuthComponent = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.user?.value);
+	const user = useSelector((state) => state.user.value);
+	const isChecked = useSelector((state) => state.user.checked);
 
 	useEffect(() => {
-		if (user) return;
+		if (isChecked || user) return;
 
 		const fetchUser = async () => {
 			try {
 				const res = await AuthService.auth();
 				dispatch(setValue(res));
-			} catch (error) {}
+			} catch (error) {
+			} finally {
+				dispatch(checked());
+			}
 		};
 
 		fetchUser();
-	}, [dispatch, user]);
+	}, [dispatch, isChecked, user]);
 
 	return null;
 };

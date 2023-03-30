@@ -4,8 +4,14 @@
 	background: var(--primary);
 	color: #fff;
 	border: 1px solid transparent;
+	cursor: pointer;
+	text-align: center;
+	margin: 5px 0;
 }
 
+.wrapper.block {
+	width: 100%;
+}
 .outlined {
 	border-color: var(--primary);
 	background: transparent;

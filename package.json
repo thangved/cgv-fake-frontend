@@ -20,6 +20,7 @@
 		"eslint": "8.36.0",
 		"eslint-config-next": "13.2.4",
 		"firebase": "^9.18.0",
+		"formik": "^2.2.9",
 		"next": "13.2.4",
 		"react": "18.2.0",
 		"react-aspect-ratio": "^1.1.4",
@@ -29,7 +30,8 @@
 		"react-player": "^2.12.0",
 		"react-redux": "^8.0.5",
 		"react-responsive-carousel": "^3.2.23",
-		"react-zoom-pan-pinch": "^3.0.6"
+		"react-zoom-pan-pinch": "^3.0.6",
+		"yup": "^1.0.2"
 	},
 	"devDependencies": {
 		"prettier": "^2.8.7"

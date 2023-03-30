@@ -1,16 +1,14 @@
+import clsx from 'clsx';
 import { useRef, useState } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
-import clsx from 'clsx';
 
 import GetTicketLayout from '@/layouts/GetTicketLayout';
 import seats from '@/mock/seats';
 
-import styles from './Ticket.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
-import useAuth from '@/hooks/useAuth';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import styles from './Ticket.module.css';
 
 const SeatRow = ({ details }) => {
 	const [selected, setSelected] = useState([]);
@@ -51,10 +49,6 @@ const SeatRow = ({ details }) => {
 
 const Ticket = () => {
 	const mainRef = useRef();
-
-	if (!useAuth()) {
-		return <LoadingOverlay />;
-	}
 
 	return (
 		<div className={styles.wrapper}>

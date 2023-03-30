@@ -75,11 +75,11 @@ const Genders = () => {
 					columns={[
 						{
 							field: 'id',
-							headerName: 'Mã giới tính',
+							headerName: 'Mã',
 						},
 						{
 							field: 'name',
-							headerName: 'Tên giới tính',
+							headerName: 'Giới tính',
 							flex: 1,
 						},
 						{

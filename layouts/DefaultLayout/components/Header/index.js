@@ -3,7 +3,7 @@ import Images from '@/assets/images';
 import LoginWithGoogle from '@/components/LoginWithGoogle';
 import MovieCard from '@/components/MovieCard';
 import movies from '@/mock/movies';
-import { faAngleDown, faShield } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { Col, Container, Row } from 'react-grid-system';
@@ -18,7 +18,7 @@ const Header = () => {
 			{currentUser?.admin && (
 				<div className={styles.adminCp}>
 					<Link href="/acp">
-						<FontAwesomeIcon icon={faShield} />
+						<FontAwesomeIcon icon={faWrench} />
 						<span>ADMIN CP</span>
 					</Link>
 				</div>
@@ -37,8 +37,6 @@ const Header = () => {
 								src={currentUser.avatar}
 								alt={currentUser.fullName}
 							/>
-
-							<h6>{currentUser.fullName}</h6>
 						</Link>
 					) : (
 						<LoginWithGoogle />

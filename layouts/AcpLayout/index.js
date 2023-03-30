@@ -10,6 +10,7 @@ import {
 	faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -90,10 +91,13 @@ const Item = ({ item }) => {
 					{item.title}
 				</Link>
 				{item.children && (
-					<span onClick={() => setOpen(!open)} className={styles.btn}>
-						<FontAwesomeIcon
-							icon={open ? faAngleUp : faAngleDown}
-						/>
+					<span
+						onClick={() => setOpen(!open)}
+						className={clsx(styles.btn, {
+							[styles.open]: open,
+						})}
+					>
+						<FontAwesomeIcon icon={faAngleUp} />
 					</span>
 				)}
 			</div>

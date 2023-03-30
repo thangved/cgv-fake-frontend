@@ -1,0 +1,26 @@
+.wrapper ul {
+	display: block;
+	border: 1px solid #ddd;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.wrapper li {
+	list-style: none;
+}
+
+.wrapper li + li {
+	border-top: 1px solid #ddd;
+}
+
+.wrapper li a {
+	padding: 10px 20px;
+	color: #3700ff;
+	display: block;
+}
+.wrapper li a:hover {
+	text-decoration: underline;
+}

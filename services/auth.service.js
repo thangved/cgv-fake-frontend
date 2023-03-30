@@ -1,8 +1,14 @@
 import request from '@/utils/request';
 
 class AuthService {
-	static login({ accessToken }) {
-		return request.post('auth/login', { accessToken });
+	static loginWithGoogle({ accessToken }) {
+		return request.post('auth/google', { accessToken });
+	}
+	static register(payload) {
+		return request.post('auth/register', payload);
+	}
+	static login(payload) {
+		return request.post('auth/login', payload);
 	}
 	static auth() {
 		return request.get('auth');

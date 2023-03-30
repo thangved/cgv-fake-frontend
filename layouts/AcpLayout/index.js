@@ -1,3 +1,4 @@
+import LoadingOverlay from '@/components/LoadingOverlay';
 import {
 	faAngleDown,
 	faAngleLeft,
@@ -15,6 +16,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './AcpLayout.module.css';
 
 export const adminNavItems = [
@@ -120,6 +122,11 @@ const Item = ({ item }) => {
 
 const AcpLayout = ({ children }) => {
 	const router = useRouter();
+	const currentUser = useSelector((state) => state.user.value);
+
+	if (!currentUser) return <LoadingOverlay />;
+
+	if (!currentUser?.admin) return router.push('/');
 
 	return (
 		<>

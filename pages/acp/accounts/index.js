@@ -1,17 +1,53 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import AccountService from '@/services/account.servive';
-import { Avatar, Container } from '@mui/material';
-import { DataGrid, viVN } from '@mui/x-data-grid';
+import {
+	faFileCirclePlus,
+	faPen,
+	faTimes,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	Avatar,
+	Button,
+	Container,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+} from '@mui/material';
+import {
+	DataGrid,
+	GridActionsCellItem,
+	GridToolbarContainer,
+	viVN,
+} from '@mui/x-data-grid';
 import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
-import styles from './Accounts.module.css';
 
 const Accounts = () => {
-	const { data: accounts, isLoading } = useQuery(
-		['accounts'],
-		AccountService.getAll
-	);
+	const [deleteId, setDeleteId] = useState(null);
+	const router = useRouter();
+	const {
+		data: accounts,
+		isLoading,
+		refetch,
+	} = useQuery(['accounts'], AccountService.getAll);
+
+	const handleDelete = async () => {
+		try {
+			await AccountService.deleteById(deleteId);
+		} catch (error) {
+			toast.error(error.response.data.message);
+		} finally {
+			setDeleteId(null);
+			refetch();
+		}
+	};
 
 	if (isLoading) return <LoadingOverlay />;
 
@@ -74,11 +110,69 @@ const Accounts = () => {
 							return dayjs(value).format('hh:mm, DD/MM/YYYY');
 						},
 					},
+					{
+						field: 'action',
+						type: 'actions',
+						headerName: 'Hành động',
+						getActions({ row }) {
+							return [
+								<GridActionsCellItem
+									key="edit"
+									icon={<FontAwesomeIcon icon={faPen} />}
+									label="Edit"
+									onClick={() => {
+										router.push(
+											`/acp/accounts/${row.id}/edit`
+										);
+									}}
+								/>,
+								<GridActionsCellItem
+									key="delete"
+									icon={<FontAwesomeIcon icon={faTimes} />}
+									label="Edit"
+									onClick={() => {
+										setDeleteId(row.id);
+									}}
+								/>,
+							];
+						},
+					},
 				]}
 				rows={accounts}
 				loading={isLoading}
 				localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+				slots={{
+					toolbar: () => (
+						<GridToolbarContainer>
+							<Link href="/acp/accounts/create">
+								<Button
+									startIcon={
+										<FontAwesomeIcon
+											icon={faFileCirclePlus}
+										/>
+									}
+								>
+									Thêm
+								</Button>
+							</Link>
+						</GridToolbarContainer>
+					),
+				}}
 			/>
+
+			<Dialog open={!!deleteId}>
+				<DialogTitle>Xóa giới tính</DialogTitle>
+				<DialogContent>
+					Bạn có muốn xóa giới tính này? Những tài khoản có giới tính
+					này có thể sẽ bị ảnh hưởng!
+				</DialogContent>
+				<DialogActions>
+					<Button variant="contained" onClick={handleDelete}>
+						Xóa
+					</Button>
+					<Button onClick={() => setDeleteId(null)}>Hủy</Button>
+				</DialogActions>
+			</Dialog>
 		</Container>
 	);
 };

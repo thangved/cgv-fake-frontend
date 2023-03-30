@@ -8,3 +8,7 @@
 	color: #333;
 	margin: 5px 0;
 }
+
+.wrapper:read-only {
+	opacity: 0.6;
+}

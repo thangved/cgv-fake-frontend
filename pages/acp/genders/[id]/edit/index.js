@@ -28,7 +28,7 @@ const EditGender = () => {
 			<h2 style={{ margin: '20px 0' }}>Cập nhật giới tính</h2>
 			<GenderForm
 				submitText="Cập nhật"
-				initialValue={gender}
+				initialValues={gender}
 				onSubmit={handleUpdate}
 			/>
 		</Container>

@@ -3,13 +3,13 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 const GenderForm = ({
-	initialValue = { name: '' },
+	initialValues = { name: '' },
 	submitText = 'Gửi',
 	onSubmit,
 }) => {
 	return (
 		<Formik
-			initialValues={initialValue}
+			initialValues={initialValues}
 			validationSchema={Yup.object().shape({
 				name: Yup.string().required('Vui lòng nhập giới tính'),
 			})}
@@ -28,6 +28,7 @@ const GenderForm = ({
 						error={!!errors.name}
 						helperText={errors.name}
 						fullWidth
+						size="small"
 					/>
 
 					<Button

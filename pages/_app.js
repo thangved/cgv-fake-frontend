@@ -7,6 +7,7 @@ import '@/styles/globals.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
@@ -52,6 +53,7 @@ const App = ({ Component, pageProps }) => {
 				<Layout>
 					<Component {...pageProps} />
 				</Layout>
+				<Toaster position="top-center" />
 			</Provider>
 		</QueryClientProvider>
 	);

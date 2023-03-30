@@ -15,4 +15,6 @@
 .wrapper span {
 	display: inline-block;
 	margin-left: 10px;
+	text-align: center;
+	flex: 1;
 }

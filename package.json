@@ -30,6 +30,7 @@
 		"react-aspect-ratio": "^1.1.4",
 		"react-dom": "18.2.0",
 		"react-grid-system": "^8.1.9",
+		"react-hot-toast": "^2.4.0",
 		"react-modal": "^3.16.1",
 		"react-player": "^2.12.0",
 		"react-query": "^3.39.3",

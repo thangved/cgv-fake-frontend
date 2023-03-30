@@ -14,7 +14,7 @@ import styles from './LoginWithGoogle.module.css';
 
 const provider = new GoogleAuthProvider();
 
-const LoginWithGoogle = () => {
+const LoginWithGoogle = ({ children, onFailed, onSuccess, ...props }) => {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 
@@ -25,13 +25,17 @@ const LoginWithGoogle = () => {
 
 			const accessToken = result.user.accessToken;
 
-			const res = await AuthService.login({ accessToken });
+			try {
+				const res = await AuthService.loginWithGoogle({ accessToken });
 
-			token.token = res.accessToken;
+				token.token = res.accessToken;
 
-			const authRes = await AuthService.auth();
-
-			dispatch(setValue(authRes));
+				const authRes = await AuthService.auth();
+				dispatch(setValue(authRes));
+				onSuccess();
+			} catch (error) {
+				onFailed(result);
+			}
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -41,7 +45,7 @@ const LoginWithGoogle = () => {
 
 	return (
 		<>
-			<div className={styles.wrapper} onClick={handleLogin}>
+			<div className={styles.wrapper} onClick={handleLogin} {...props}>
 				<Image
 					src={Images.googleIcon}
 					width={20}
@@ -49,7 +53,7 @@ const LoginWithGoogle = () => {
 					alt="Google icon"
 				/>
 
-				<span>Đăng nhập</span>
+				<span>{children || 'Đăng nhập'}</span>
 			</div>
 			{loading && (
 				<LoadingOverlay message="Kết nối với tài khoản Google của bạn..." />

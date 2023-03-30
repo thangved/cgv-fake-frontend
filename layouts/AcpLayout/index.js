@@ -127,7 +127,9 @@ const AcpLayout = ({ children }) => {
 					<div className={styles.back} onClick={() => router.back()}>
 						<FontAwesomeIcon icon={faAngleLeft} />
 					</div>
-					<h4>CGV Fake ACP</h4>
+					<Link href="/acp">
+						<h4>CGV Fake ACP</h4>
+					</Link>
 				</div>
 				<div className={styles.main}>
 					<div className={styles.sidebar}>

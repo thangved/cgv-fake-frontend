@@ -4,18 +4,19 @@ import Image from 'next/image';
 import Images from '@/assets/images';
 
 import { auth } from '@/firebase';
+import AuthService from '@/services/auth.service';
+import { setValue } from '@/store/userSlice';
+import token from '@/utils/token';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import LoadingOverlay from '../LoadingOverlay';
 import styles from './LoginWithGoogle.module.css';
-import AuthService from '@/services/auth.service';
-import token from '@/utils/token';
-import { useRouter } from 'next/router';
 
 const provider = new GoogleAuthProvider();
 
 const LoginWithGoogle = () => {
 	const [loading, setLoading] = useState(false);
-	const router = useRouter();
+	const dispatch = useDispatch();
 
 	const handleLogin = async () => {
 		try {
@@ -27,7 +28,10 @@ const LoginWithGoogle = () => {
 			const res = await AuthService.login({ accessToken });
 
 			token.token = res.accessToken;
-			router.reload();
+
+			const authRes = await AuthService.auth();
+
+			dispatch(setValue(authRes));
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -47,7 +51,9 @@ const LoginWithGoogle = () => {
 
 				<span>Đăng nhập</span>
 			</div>
-			{loading && <LoadingOverlay />}
+			{loading && (
+				<LoadingOverlay message="Kết nối với tài khoản Google của bạn..." />
+			)}
 		</>
 	);
 };

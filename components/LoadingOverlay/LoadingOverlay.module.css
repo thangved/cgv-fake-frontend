@@ -9,4 +9,12 @@
 	align-items: center;
 	justify-content: center;
 	z-index: 100;
+	color: #fff;
+	flex-direction: column;
+}
+
+.wrapper span {
+	margin-top: 10px;
+	user-select: none;
+	text-align: center;
 }

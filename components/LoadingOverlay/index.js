@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './LoadingOverlay.module.css';
 
-const LoadingOverlay = () => {
+const LoadingOverlay = ({ message }) => {
 	return (
 		<div className={styles.wrapper}>
 			<FontAwesomeIcon
@@ -12,6 +12,7 @@ const LoadingOverlay = () => {
 				color="var(--primary)"
 				size="2x"
 			/>
+			{message && <span>{message}</span>}
 		</div>
 	);
 };

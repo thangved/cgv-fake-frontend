@@ -15,7 +15,6 @@ const DefaultLayout = ({ children }) => {
 	return (
 		<div className={clsx(styles.wrapper, roboto.className)}>
 			<Header />
-			<div style={{ height: 125 }}></div>
 			<div className={styles.content}>{children}</div>
 			<Footer />
 		</div>

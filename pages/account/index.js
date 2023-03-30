@@ -1,20 +1,23 @@
-/* eslint-disable @next/next/no-img-element */
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import Select from '@/components/Select';
 import AccountLayout from '@/layouts/AccountLayout';
-import genders from '@/mock/genders';
+import AuthService from '@/services/auth.service';
+import GenderService from '@/services/gender.service';
+import { setValue } from '@/store/userSlice';
 import token from '@/utils/token';
 import { Formik } from 'formik';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import styles from './Account.module.css';
 
 export async function getStaticProps() {
 	try {
+		const genders = await GenderService.getAll();
 		return {
 			props: {
 				genders,
@@ -24,13 +27,27 @@ export async function getStaticProps() {
 }
 
 const Account = ({ genders = [] }) => {
+	const [loading, setLoading] = useState(false);
+	const dispatch = useDispatch();
+
 	const currentUser = useSelector((state) => state.user.value);
-	const router = useRouter();
 
 	const handleSubmit = async (values) => {
 		try {
-			console.log(values);
-		} catch (error) {}
+			setLoading(true);
+			await AuthService.update(values);
+
+			const authRes = await AuthService.auth();
+			dispatch(setValue(authRes));
+		} catch (error) {
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleLogout = () => {
+		token.token = '';
+		dispatch(setValue(null));
 	};
 
 	return (
@@ -39,19 +56,22 @@ const Account = ({ genders = [] }) => {
 				<title>Cài đặt tài khoản</title>
 			</Head>
 
+			{loading && <LoadingOverlay message="Đang cập nhật..." />}
+
 			<Formik
 				enableReinitialize
 				initialValues={{
 					fullName: currentUser.fullName,
 					dateOfBirth: currentUser.dateOfBirth,
 					email: currentUser.email,
-					gender: currentUser.gender?.id,
+					genderId: currentUser.gender?.id,
 				}}
 				validationSchema={Yup.object().shape({
 					fullName: Yup.string().required('Vui lòng nhập họ tên'),
 					dateOfBirth: Yup.date(
 						'Ngày sinh phải là một ngày hợp lệ'
 					).required('Vui lòng chọn ngày sinh'),
+					genderId: Yup.number().required('Vui lòng chọn giới tính'),
 				})}
 				onSubmit={handleSubmit}
 			>
@@ -92,11 +112,15 @@ const Account = ({ genders = [] }) => {
 
 						<label htmlFor="gender">Giới tính</label>
 						<Select
-							value={values.gender}
-							name="gender"
+							defaultValue="0"
+							value={values.genderId}
+							name="genderId"
 							id="gender"
 							onChange={handleChange}
 						>
+							<option value="0" disabled>
+								Chưa chọn
+							</option>
 							{genders.map((e) => (
 								<option key={e.id} value={e.id}>
 									{e.name}
@@ -115,10 +139,8 @@ const Account = ({ genders = [] }) => {
 								<Button
 									block
 									outlined
-									onClick={() => {
-										token.token = '';
-										router.reload();
-									}}
+									type="button"
+									onClick={handleLogout}
 								>
 									Đăng xuất
 								</Button>

@@ -1,0 +1,121 @@
+import {
+	faAngleDown,
+	faAngleLeft,
+	faAngleUp,
+	faFilm,
+	faHouse,
+	faLocation,
+	faTicket,
+	faUsers,
+	faVenusMars,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import styles from './AcpLayout.module.css';
+
+const items = [
+	{
+		title: 'Giới tính',
+		path: 'genders',
+		icon: <FontAwesomeIcon icon={faVenusMars} />,
+		children: [
+			{
+				title: 'Thêm',
+				path: 'create',
+			},
+		],
+	},
+	{
+		title: 'Tài khoản',
+		path: 'accounts',
+		icon: <FontAwesomeIcon icon={faUsers} />,
+	},
+	{
+		title: 'Tỉnh thành',
+		path: 'provinces',
+		icon: <FontAwesomeIcon icon={faLocation} />,
+	},
+	{
+		title: 'Rạp',
+		path: 'cinemas',
+		icon: <FontAwesomeIcon icon={faHouse} />,
+	},
+	{
+		title: 'Phim',
+		path: 'movies',
+		icon: <FontAwesomeIcon icon={faFilm} />,
+	},
+	{
+		title: 'Suất chiếu',
+		path: 'shows',
+		icon: <FontAwesomeIcon icon={faTicket} />,
+	},
+];
+
+const Item = ({ item }) => {
+	const [open, setOpen] = useState(false);
+
+	return (
+		<>
+			<div className={styles.item} key={item.path}>
+				{item.icon}{' '}
+				<Link href={`/acp/${item.path}`} className={styles.text}>
+					{item.title}
+				</Link>
+				{item.children && (
+					<span onClick={() => setOpen(!open)} className={styles.btn}>
+						<FontAwesomeIcon
+							icon={open ? faAngleUp : faAngleDown}
+						/>
+					</span>
+				)}
+			</div>
+			{open && (
+				<>
+					{item.children.map((e) => (
+						<Link
+							className={styles.child}
+							key={e.path}
+							href={`/acp/${item.path}/${e.path}`}
+						>
+							{e.title}
+						</Link>
+					))}
+				</>
+			)}
+		</>
+	);
+};
+
+const AcpLayout = ({ children }) => {
+	const router = useRouter();
+
+	return (
+		<>
+			<Head>
+				<title>CGV Fake ACP</title>
+			</Head>
+			<div className={styles.wrapper}>
+				<div className={styles.header}>
+					<div className={styles.back} onClick={() => router.back()}>
+						<FontAwesomeIcon icon={faAngleLeft} />
+					</div>
+					<h4>CGV Fake ACP</h4>
+				</div>
+				<div className={styles.main}>
+					<div className={styles.sidebar}>
+						{items.map((e) => (
+							<Item key={e.path} item={e} />
+						))}
+					</div>
+					<div className={styles.content}>{children}</div>
+				</div>
+			</div>
+		</>
+	);
+};
+
+export default AcpLayout;

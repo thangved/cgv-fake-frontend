@@ -6,6 +6,7 @@ import { Tomorrow } from 'next/font/google';
 import clsx from 'clsx';
 import Button from '@/components/Button';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const tomorrow = Tomorrow({
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -14,6 +15,7 @@ const tomorrow = Tomorrow({
 
 const _404 = () => {
 	const wrapperRef = useRef();
+	const currentUser = useSelector((state) => state.user.value);
 
 	useEffect(() => {
 		const interval = setInterval(createStar, 100);
@@ -55,6 +57,12 @@ const _404 = () => {
 					<Link href="/" style={{ marginTop: 10, display: 'block' }}>
 						<Button outlined>TRANG CHU</Button>
 					</Link>
+
+					{currentUser?.admin && (
+						<Link href="/acp">
+							<Button outlined>ACP</Button>
+						</Link>
+					)}
 				</div>
 
 				<div className={styles.astronaut}>

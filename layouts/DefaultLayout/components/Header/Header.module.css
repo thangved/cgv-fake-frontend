@@ -1,11 +1,11 @@
 .wrapper {
 	width: 100%;
-	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	z-index: 100;
 	background: #fff;
+	position: sticky;
 }
 
 .navbar {
@@ -104,5 +104,30 @@
 }
 
 .account h6 {
+	margin-left: 10px;
+}
+
+.adminCp {
+	padding: 5px 10px;
+	background: var(--primary);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.adminCp a {
+	display: block;
+	background: #000;
+	color: #fff;
+	padding: 5px 10px;
+	font-size: 12px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.adminCp a span {
 	margin-left: 10px;
 }

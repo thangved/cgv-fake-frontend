@@ -7,6 +7,9 @@ class AuthService {
 	static auth() {
 		return request.get('auth');
 	}
+	static update(payload) {
+		return request.put('auth', payload);
+	}
 }
 
 export default AuthService;

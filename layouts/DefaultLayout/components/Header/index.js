@@ -1,22 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
-
 import Images from '@/assets/images';
 import LoginWithGoogle from '@/components/LoginWithGoogle';
 import MovieCard from '@/components/MovieCard';
 import movies from '@/mock/movies';
-
+import { faAngleDown, faShield } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { Col, Container, Row } from 'react-grid-system';
-import styles from './Header.module.css';
 import { useSelector } from 'react-redux';
+import styles from './Header.module.css';
 
 const Header = () => {
 	const currentUser = useSelector((state) => state.user.value);
 
 	return (
 		<div className={styles.wrapper}>
+			{currentUser?.admin && (
+				<div className={styles.adminCp}>
+					<Link href="/acp">
+						<FontAwesomeIcon icon={faShield} />
+						<span>ADMIN CP</span>
+					</Link>
+				</div>
+			)}
 			<Container>
 				<Row justify="between" align="center" style={{ padding: 10 }}>
 					<Link href="/" className={styles.logo}>

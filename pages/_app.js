@@ -1,3 +1,4 @@
+import LoadingOverlay from '@/components/LoadingOverlay';
 import DefaultLayout from '@/layouts/DefaultLayout';
 import AuthService from '@/services/auth.service';
 import { store } from '@/store';
@@ -5,12 +6,17 @@ import { checked, setValue } from '@/store/userSlice';
 import '@/styles/globals.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
 config.autoAddCss = false;
 
-const AuthComponent = () => {
+const queryClient = new QueryClient();
+
+const Authentication = () => {
+	const [loading, setLoading] = useState(false);
+
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user.value);
 	const isChecked = useSelector((state) => state.user.checked);
@@ -20,10 +26,12 @@ const AuthComponent = () => {
 
 		const fetchUser = async () => {
 			try {
+				setLoading(true);
 				const res = await AuthService.auth();
 				dispatch(setValue(res));
 			} catch (error) {
 			} finally {
+				setLoading(false);
 				dispatch(checked());
 			}
 		};
@@ -31,19 +39,21 @@ const AuthComponent = () => {
 		fetchUser();
 	}, [dispatch, isChecked, user]);
 
-	return null;
+	return loading && <LoadingOverlay message="Đang đăng nhập" />;
 };
 
 const App = ({ Component, pageProps }) => {
 	const Layout = Component.layout || DefaultLayout;
 
 	return (
-		<Provider store={store}>
-			<AuthComponent />
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
-		</Provider>
+		<QueryClientProvider client={queryClient}>
+			<Provider store={store}>
+				<Authentication />
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+			</Provider>
+		</QueryClientProvider>
 	);
 };
 

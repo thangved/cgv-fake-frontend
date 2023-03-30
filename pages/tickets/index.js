@@ -9,6 +9,8 @@ import styles from './Ticket.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
+import useAuth from '@/hooks/useAuth';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 const SeatRow = ({ details }) => {
 	const [selected, setSelected] = useState([]);
@@ -49,6 +51,10 @@ const SeatRow = ({ details }) => {
 
 const Ticket = () => {
 	const mainRef = useRef();
+
+	if (!useAuth()) {
+		return <LoadingOverlay />;
+	}
 
 	return (
 		<div className={styles.wrapper}>

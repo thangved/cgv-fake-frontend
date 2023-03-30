@@ -1,8 +1,8 @@
 import {
 	faAngleDown,
 	faAngleLeft,
-	faAngleUp,
 	faFilm,
+	faHome,
 	faHouse,
 	faLocation,
 	faTicket,
@@ -97,7 +97,7 @@ const Item = ({ item }) => {
 							[styles.open]: open,
 						})}
 					>
-						<FontAwesomeIcon icon={faAngleUp} />
+						<FontAwesomeIcon icon={faAngleDown} />
 					</span>
 				)}
 			</div>
@@ -131,6 +131,14 @@ const AcpLayout = ({ children }) => {
 					<div className={styles.back} onClick={() => router.back()}>
 						<FontAwesomeIcon icon={faAngleLeft} />
 					</div>
+
+					<div
+						className={styles.back}
+						onClick={() => router.push('/')}
+					>
+						<FontAwesomeIcon icon={faHome} />
+					</div>
+
 					<Link href="/acp">
 						<h4>CGV Fake ACP</h4>
 					</Link>

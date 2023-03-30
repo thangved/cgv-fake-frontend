@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import GenderService from '@/services/gender.service';
+import BannerService from '@/services/banner.service';
 import {
 	faFileCirclePlus,
 	faPen,
@@ -27,19 +28,19 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-const Genders = () => {
+const Banners = () => {
 	const {
-		data: genders,
+		data: banners,
 		isLoading,
 		refetch,
-	} = useQuery(['genders'], GenderService.getAll);
+	} = useQuery(['banners'], BannerService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();
 
 	const handleDelete = async () => {
 		try {
-			await GenderService.delete(deleteId);
+			await BannerService.delete(deleteId);
 		} catch (error) {
 			alert(error.response.message);
 		} finally {
@@ -53,13 +54,14 @@ const Genders = () => {
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Giới tính</h2>
+				<h2 style={{ margin: '20px 0' }}>Banner</h2>
 				<DataGrid
+					rowHeight={300}
 					autoHeight
 					slots={{
 						toolbar: () => (
 							<GridToolbarContainer>
-								<Link href="/acp/genders/create">
+								<Link href="/acp/banners/create">
 									<Button
 										startIcon={
 											<FontAwesomeIcon
@@ -79,8 +81,25 @@ const Genders = () => {
 							headerName: 'Mã',
 						},
 						{
-							field: 'name',
-							headerName: 'Giới tính',
+							field: 'image',
+							headerName: 'Ảnh',
+							flex: 1,
+							renderCell({ value }) {
+								return (
+									<img
+										src={value}
+										alt="Banner"
+										style={{
+											maxHeight: 300,
+											maxWidth: '100%',
+										}}
+									/>
+								);
+							},
+						},
+						{
+							field: 'url',
+							headerName: 'Đường dẫn',
 							flex: 1,
 						},
 						{
@@ -111,7 +130,7 @@ const Genders = () => {
 										label="Edit"
 										onClick={() => {
 											router.push(
-												`/acp/genders/${row.id}/edit`
+												`/acp/banners/${row.id}/edit`
 											);
 										}}
 									/>,
@@ -129,7 +148,7 @@ const Genders = () => {
 							},
 						},
 					]}
-					rows={genders}
+					rows={banners}
 					loading={isLoading}
 					localeText={
 						viVN.components.MuiDataGrid.defaultProps.localeText
@@ -155,6 +174,6 @@ const Genders = () => {
 	);
 };
 
-Genders.layout = AcpLayout;
+Banners.layout = AcpLayout;
 
-export default Genders;
+export default Banners;

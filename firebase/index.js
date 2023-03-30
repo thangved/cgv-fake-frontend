@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -22,6 +23,15 @@ if (typeof window !== 'undefined') {
 
 auth.languageCode = 'vi';
 
-export { app, auth, analytics };
+const uploadFile = async (file) => {
+	const storage = getStorage(app);
+	const storageRef = ref(storage, `uploads/${Date.now()}`);
+
+	await uploadBytes(storageRef, file);
+
+	return await getDownloadURL(storageRef);
+};
+
+export { app, auth, analytics, uploadFile };
 
 export default app;

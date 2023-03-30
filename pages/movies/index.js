@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Col, Container, Row } from 'react-grid-system';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 	return {
 		props: { showNows: movies, showComings: [...movies].reverse() },
 	};

@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import styles from './Account.module.css';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 	try {
 		const genders = await GenderService.getAll();
 		return {

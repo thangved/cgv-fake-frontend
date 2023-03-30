@@ -6,16 +6,18 @@ import Button from '@/components/Button';
 import MovieCard from '@/components/MovieCard';
 import Slider from '@/components/Slider';
 import Tabs from '@/components/Tabs';
-import banners from '@/mock/banners';
 import movies from '@/mock/movies';
+import BannerService from '@/services/banner.service';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
+	const banners = await BannerService.getAll();
+
 	return {
-		props: { movies },
+		props: { movies, banners },
 	};
 }
 
-export default function Home({ movies }) {
+export default function Home({ movies, banners }) {
 	return (
 		<>
 			<Head>

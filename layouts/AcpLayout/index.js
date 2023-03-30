@@ -2,10 +2,13 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import {
 	faAngleDown,
 	faAngleLeft,
+	faBars,
+	faEarthAsia,
 	faFilm,
 	faHome,
 	faHouse,
 	faLocation,
+	faPager,
 	faTicket,
 	faUsers,
 	faVenusMars,
@@ -21,6 +24,17 @@ import styles from './AcpLayout.module.css';
 
 export const adminNavItems = [
 	{
+		title: 'Banner',
+		path: 'banners',
+		icon: <FontAwesomeIcon icon={faPager} />,
+		children: [
+			{
+				title: 'Thêm',
+				path: 'create',
+			},
+		],
+	},
+	{
 		title: 'Giới tính',
 		path: 'genders',
 		icon: <FontAwesomeIcon icon={faVenusMars} />,
@@ -35,6 +49,12 @@ export const adminNavItems = [
 		title: 'Tài khoản',
 		path: 'accounts',
 		icon: <FontAwesomeIcon icon={faUsers} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
 	},
 	{
 		title: 'Tỉnh thành',
@@ -51,6 +71,28 @@ export const adminNavItems = [
 		title: 'Rạp',
 		path: 'cinemas',
 		icon: <FontAwesomeIcon icon={faHouse} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
+	},
+	{
+		title: 'Thể loại phim',
+		path: 'categories',
+		icon: <FontAwesomeIcon icon={faBars} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
+	},
+	{
+		title: 'Quốc gia',
+		path: 'countries',
+		icon: <FontAwesomeIcon icon={faEarthAsia} />,
 		children: [
 			{
 				path: 'create',

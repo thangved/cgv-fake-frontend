@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from './AcpLayout.module.css';
 
-const items = [
+export const adminNavItems = [
 	{
 		title: 'Giới tính',
 		path: 'genders',
@@ -37,21 +37,45 @@ const items = [
 		title: 'Tỉnh thành',
 		path: 'provinces',
 		icon: <FontAwesomeIcon icon={faLocation} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
 	},
 	{
 		title: 'Rạp',
 		path: 'cinemas',
 		icon: <FontAwesomeIcon icon={faHouse} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
 	},
 	{
 		title: 'Phim',
 		path: 'movies',
 		icon: <FontAwesomeIcon icon={faFilm} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
 	},
 	{
 		title: 'Suất chiếu',
 		path: 'shows',
 		icon: <FontAwesomeIcon icon={faTicket} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
 	},
 ];
 
@@ -107,7 +131,7 @@ const AcpLayout = ({ children }) => {
 				</div>
 				<div className={styles.main}>
 					<div className={styles.sidebar}>
-						{items.map((e) => (
+						{adminNavItems.map((e) => (
 							<Item key={e.path} item={e} />
 						))}
 					</div>

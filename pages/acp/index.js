@@ -1,8 +1,12 @@
 import AcpLayout from '@/layouts/AcpLayout';
-import React from 'react';
+import { Container } from '@mui/material';
 
 const Acp = () => {
-	return <div>Acp</div>;
+	return (
+		<Container>
+			<h2 style={{ margin: '20px 0' }}>CGV Fake ACP</h2>
+		</Container>
+	);
 };
 
 Acp.layout = AcpLayout;

@@ -80,6 +80,8 @@
 	display: block;
 	color: #000;
 	border-bottom: 1px solid #ddd;
+	background: #fafafa;
+	font-weight: bold;
 }
 
 .content {

@@ -169,10 +169,10 @@ const Accounts = () => {
 			/>
 
 			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa giới tính</DialogTitle>
+				<DialogTitle>Xóa tài khoản</DialogTitle>
 				<DialogContent>
-					Bạn có muốn xóa giới tính này? Những tài khoản có giới tính
-					này có thể sẽ bị ảnh hưởng!
+					Bạn có muốn xóa tài khoản này? Những hóa đơn của tài khoản
+					này có thể sẽ bị ảnh hưởng.
 				</DialogContent>
 				<DialogActions>
 					<Button variant="contained" onClick={handleDelete}>

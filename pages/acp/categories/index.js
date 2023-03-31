@@ -1,14 +1,18 @@
+/* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import CountryService from '@/services/country.service';
+import CategoryService from '@/services/category.service';
 import {
+	faEarthAsia,
 	faFileCirclePlus,
+	faLock,
 	faPen,
 	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
+	Chip,
 	Container,
 	Dialog,
 	DialogActions,
@@ -29,17 +33,17 @@ import { useQuery } from 'react-query';
 
 const Categories = () => {
 	const {
-		data: countries,
+		data: categories,
 		isLoading,
 		refetch,
-	} = useQuery(['genders'], CountryService.getAll);
+	} = useQuery(['banners'], CategoryService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();
 
 	const handleDelete = async () => {
 		try {
-			await CountryService.delete(deleteId);
+			await CategoryService.delete(deleteId);
 		} catch (error) {
 			alert(error.response.message);
 		} finally {
@@ -53,13 +57,13 @@ const Categories = () => {
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Quốc gia</h2>
+				<h2 style={{ margin: '20px 0' }}>Thể loại phim</h2>
 				<DataGrid
 					autoHeight
 					slots={{
 						toolbar: () => (
 							<GridToolbarContainer>
-								<Link href="/acp/countries/create">
+								<Link href="/acp/categories/create">
 									<Button
 										startIcon={
 											<FontAwesomeIcon
@@ -78,11 +82,13 @@ const Categories = () => {
 							field: 'id',
 							headerName: 'Mã',
 						},
+
 						{
 							field: 'name',
-							headerName: 'Tên quốc gia',
+							headerName: 'Tên thể loại',
 							flex: 1,
 						},
+
 						{
 							field: 'createdAt',
 							headerName: 'Tạo vào',
@@ -111,7 +117,7 @@ const Categories = () => {
 										label="Edit"
 										onClick={() => {
 											router.push(
-												`/acp/countries/${row.id}/edit`
+												`/acp/categories/${row.id}/edit`
 											);
 										}}
 									/>,
@@ -129,7 +135,7 @@ const Categories = () => {
 							},
 						},
 					]}
-					rows={countries}
+					rows={categories}
 					loading={isLoading}
 					localeText={
 						viVN.components.MuiDataGrid.defaultProps.localeText
@@ -139,10 +145,10 @@ const Categories = () => {
 			</Container>
 
 			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa quốc gia</DialogTitle>
+				<DialogTitle>Xóa thể loại phim</DialogTitle>
 				<DialogContent>
-					Bạn có muốn xóa quốc gia này? Những bộ phim được sản xuất
-					tại quốc gia này có thể sẽ bị ảnh hưởng!
+					Bạn có muốn xóa thể lọại này? Những bộ phim có thể loại này
+					có thể sẽ bị ảnh hưởng!
 				</DialogContent>
 				<DialogActions>
 					<Button variant="contained" onClick={handleDelete}>

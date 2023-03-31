@@ -181,11 +181,8 @@ const Banners = () => {
 			</Container>
 
 			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa giới tính</DialogTitle>
-				<DialogContent>
-					Bạn có muốn xóa giới tính này? Những tài khoản có giới tính
-					này có thể sẽ bị ảnh hưởng!
-				</DialogContent>
+				<DialogTitle>Xóa banner</DialogTitle>
+				<DialogContent>Bạn có muốn xóa banner này?</DialogContent>
 				<DialogActions>
 					<Button variant="contained" onClick={handleDelete}>
 						Xóa

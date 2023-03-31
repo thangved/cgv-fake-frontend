@@ -5,6 +5,10 @@ class BannerService {
 		return request.get('banners');
 	}
 
+	static getAllPublic() {
+		return request.get('banners/public');
+	}
+
 	static create(payload) {
 		return request.post('banners', payload);
 	}

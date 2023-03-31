@@ -1,12 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 import { uploadFile } from '@/firebase';
-import { Button, TextField } from '@mui/material';
+import {
+	Button,
+	Checkbox,
+	FormControlLabel,
+	Switch,
+	TextField,
+} from '@mui/material';
 import { Formik } from 'formik';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 
 const BannerForm = ({
-	initialValues = { image: '', url: '' },
+	initialValues = { image: '', url: '', visible },
 	submitText = 'Gửi',
 	onSubmit,
 }) => {
@@ -91,6 +97,19 @@ const BannerForm = ({
 						helperText={errors.url}
 						fullWidth
 						size="small"
+					/>
+
+					<FormControlLabel
+						label="Hiển thị"
+						style={{ width: '100%', marginBottom: 20 }}
+						control={<Checkbox />}
+						name="visible"
+						checked={values.visible}
+						onChange={(_, value) =>
+							handleChange({
+								target: { name: 'visible', value },
+							})
+						}
 					/>
 
 					<Button

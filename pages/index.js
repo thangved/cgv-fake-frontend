@@ -1,16 +1,15 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import { Col, Container, Row } from 'react-grid-system';
-
 import Button from '@/components/Button';
 import MovieCard from '@/components/MovieCard';
 import Slider from '@/components/Slider';
 import Tabs from '@/components/Tabs';
 import movies from '@/mock/movies';
 import BannerService from '@/services/banner.service';
+import Head from 'next/head';
+import Link from 'next/link';
+import { Col, Container, Row } from 'react-grid-system';
 
 export async function getServerSideProps() {
-	const banners = await BannerService.getAll();
+	const banners = await BannerService.getAllPublic();
 
 	return {
 		props: { movies, banners },

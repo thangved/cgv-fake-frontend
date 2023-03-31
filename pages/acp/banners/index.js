@@ -3,13 +3,16 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import BannerService from '@/services/banner.service';
 import {
+	faEarthAsia,
 	faFileCirclePlus,
+	faLock,
 	faPen,
 	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
+	Chip,
 	Container,
 	Dialog,
 	DialogActions,
@@ -101,6 +104,26 @@ const Banners = () => {
 							field: 'url',
 							headerName: 'Đường dẫn',
 							flex: 1,
+						},
+						{
+							field: 'visible',
+							headerName: 'Hiển thị',
+							flex: 1,
+							renderCell({ value }) {
+								return (
+									<Chip
+										icon={
+											<FontAwesomeIcon
+												icon={
+													value ? faEarthAsia : faLock
+												}
+											/>
+										}
+										label={value ? 'Hiển thị' : 'Ẩn'}
+										color={value ? 'success' : 'error'}
+									/>
+								);
+							},
 						},
 						{
 							field: 'createdAt',

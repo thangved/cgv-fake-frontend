@@ -1,13 +1,22 @@
 import styles from './AboutUs.module.css';
 
-import { Col, Container, Row } from 'react-grid-system';
-import movies from '@/mock/movies';
-import MovieCard from '@/components/MovieCard';
-import Link from 'next/link';
 import Button from '@/components/Button';
+import MovieCard from '@/components/MovieCard';
 import Head from 'next/head';
+import Link from 'next/link';
+import { Col, Container, Row } from 'react-grid-system';
 
-const AboutUs = () => {
+async function getServerSideProps() {
+	const moviesShowNow = await MovieService.getAll({ show: 'now' });
+
+	return {
+		props: {
+			moviesShowNow,
+		},
+	};
+}
+
+const AboutUs = ({ moviesShowNow }) => {
 	return (
 		<>
 			<Head>
@@ -76,7 +85,7 @@ const AboutUs = () => {
 						<h3>Phim đang chiếu</h3>
 
 						<Row>
-							{movies.slice(0, 3).map((e, index) => (
+							{moviesShowNow.map((e, index) => (
 								<Col xs={12} key={index}>
 									<MovieCard details={e} />
 								</Col>

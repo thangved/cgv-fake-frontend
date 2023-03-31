@@ -37,7 +37,6 @@ const LoginWithGoogle = ({ children, onFailed, onSuccess, ...props }) => {
 				onFailed(result);
 			}
 		} catch (error) {
-			console.log(error);
 		} finally {
 			setLoading(false);
 		}

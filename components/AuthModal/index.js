@@ -48,7 +48,6 @@ const AuthModal = ({ open, onClose }) => {
 			onClose();
 			setRegisterPayload(null);
 		} catch (error) {
-			console.log(error);
 			toast.error(error);
 		}
 	};
@@ -66,7 +65,6 @@ const AuthModal = ({ open, onClose }) => {
 			onClose();
 			setRegisterPayload(null);
 		} catch (error) {
-			console.log(error);
 			toast.error(error);
 		}
 	};

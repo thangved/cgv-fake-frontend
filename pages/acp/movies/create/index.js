@@ -12,8 +12,8 @@ const CreateMovie = () => {
 	const [loading, setLoading] = useState(false);
 
 	const handleCreate = async (values) => {
+		setLoading(true);
 		try {
-			setLoading(true);
 			await MovieService.create(values);
 			router.back();
 		} catch (error) {

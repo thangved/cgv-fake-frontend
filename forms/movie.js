@@ -32,12 +32,12 @@ const MovieForm = ({
 		director: '',
 		verPoster: '',
 		horPoster: '',
-		trailer: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+		trailer: 'https://youtu.be/dQw4w9WgXcQ',
 		minutes: 90,
 		content: '',
 		showAt: null,
-		countryId: null,
 		categories: [],
+		countries: [],
 	},
 	submitText = 'Gửi',
 	onSubmit,
@@ -62,7 +62,7 @@ const MovieForm = ({
 				brief: Yup.string().required('Vui lòng nhập mô tả ngắn'),
 				studio: Yup.string().required('Vui lòng nhập tên nhà sản xuất'),
 				director: Yup.string().required('Vui lòng nhập tên đạo diễn'),
-				countryId: Yup.string().required('Vui lòng chọn quốc gia'),
+				countries: Yup.array().of(Yup.number()),
 				categories: Yup.array().of(Yup.number()),
 				verPoster: Yup.string()
 					.required('Vui lòng tải poster lên')
@@ -147,23 +147,20 @@ const MovieForm = ({
 								<Select
 									error={!!errors.countryId}
 									label="Quốc gia sản xuất"
-									name="countryId"
-									native
-									defaultValue="0"
+									name="countries"
+									defaultValue={values.countries}
+									multiple
 									onChange={handleChange}
 								>
-									<option value="0" disabled>
-										Chưa chọn
-									</option>
 									{countries.map((e) => (
-										<option key={e.id} value={e.id}>
+										<MenuItem key={e.id} value={e.id}>
 											{e.name}
-										</option>
+										</MenuItem>
 									))}
 								</Select>
 
-								<FormHelperText error={!!errors.countryId}>
-									{errors.countryId}
+								<FormHelperText error={!!errors.countries}>
+									{errors.countries}
 								</FormHelperText>
 							</FormControl>
 
@@ -225,17 +222,23 @@ const MovieForm = ({
 									type="file"
 									accept="image/*"
 									onChange={async (event) => {
-										const file = event.target.files[0];
-										if (!file) return;
+										try {
+											const file = event.target.files[0];
+											if (!file) return;
 
-										const imageURL = await uploadFile(file);
+											const imageURL = await uploadFile(
+												file
+											);
 
-										handleChange({
-											target: {
-												name: 'verPoster',
-												value: imageURL,
-											},
-										});
+											handleChange({
+												target: {
+													name: 'verPoster',
+													value: imageURL,
+												},
+											});
+										} catch (error) {
+											console.log(error);
+										}
 									}}
 								/>
 							</Button>

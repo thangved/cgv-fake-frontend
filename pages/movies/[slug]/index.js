@@ -102,7 +102,12 @@ const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 									<span className={styles.label}>
 										Quốc gia:
 									</span>
-									<span> {movieDetails.country.name}</span>
+									<span>
+										{' '}
+										{movieDetails.countries
+											.map((e) => e.name)
+											.join(', ')}
+									</span>
 								</div>
 
 								<div>

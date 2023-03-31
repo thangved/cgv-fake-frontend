@@ -18,7 +18,7 @@ const MovieCard = ({ details, ratio = 1.7, dark = false }) => {
 				className={styles.image}
 				style={{
 					backgroundImage: `url(${
-						details.image || details.horThumbnail
+						details.image || details.horPoster
 					})`,
 				}}
 			>

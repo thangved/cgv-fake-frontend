@@ -48,7 +48,7 @@ const Movies = ({ showNows, showComings }) => {
 													ratio={0.8}
 													details={{
 														...e,
-														image: e.verThumbnail,
+														image: e.verPoster,
 													}}
 												/>
 											</Col>
@@ -81,7 +81,7 @@ const Movies = ({ showNows, showComings }) => {
 													ratio={0.8}
 													details={{
 														...e,
-														image: e.verThumbnail,
+														image: e.verPoster,
 													}}
 												/>
 											</Col>

@@ -12,8 +12,13 @@ request.interceptors.request.use((req) => {
 	return req;
 });
 
-request.interceptors.response.use((res) => {
-	return res.data;
-});
+request.interceptors.response.use(
+	(res) => {
+		return res.data;
+	},
+	(error) => {
+		throw error.response.data.message;
+	}
+);
 
 export default request;

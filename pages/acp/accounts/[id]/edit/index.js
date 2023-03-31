@@ -20,7 +20,7 @@ const EditAccount = () => {
 			await AccountService.update(router.query.id, values);
 			router.back();
 		} catch (error) {
-			toast.error(error.response.data.message);
+			toast.error(error);
 		}
 	};
 

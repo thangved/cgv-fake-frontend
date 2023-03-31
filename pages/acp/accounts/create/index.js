@@ -12,7 +12,7 @@ const CreateAccount = () => {
 			await AccountService.create(values);
 			router.back();
 		} catch (error) {
-			toast.error(error.response.data.message);
+			toast.error(error);
 		}
 	};
 

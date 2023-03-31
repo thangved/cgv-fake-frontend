@@ -12,7 +12,7 @@ import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 
 const BannerForm = ({
-	initialValues = { image: '', url: '', visible },
+	initialValues = { image: '', url: '', visible: false },
 	submitText = 'Gửi',
 	onSubmit,
 }) => {

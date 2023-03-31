@@ -3,7 +3,9 @@ import GenderService from '@/services/gender.service';
 import {
 	Avatar,
 	Button,
+	Checkbox,
 	FormControl,
+	FormControlLabel,
 	InputLabel,
 	Select,
 	TextField,
@@ -17,10 +19,11 @@ const AccountForm = ({
 	initialValues = {
 		fullName: '',
 		email: '',
-		avatar: '',
+		avatar: 'http://www.gravatar.com/avatar/?d=identicon',
 		genderId: 0,
 		dateOfBirth: null,
 		password: null,
+		admin: false,
 	},
 	submitText = 'Gửi',
 	hidePassword = false,
@@ -43,6 +46,7 @@ const AccountForm = ({
 			.url('Link ảnh không hợp lệ'),
 		genderId: Yup.number().required('Vui lòng chọn giới tính'),
 		dateOfBirth: Yup.date().required('Vui lòng nhập ngày sinh'),
+		admin: Yup.boolean().required(),
 	};
 
 	if (!hidePassword) {
@@ -134,6 +138,18 @@ const AccountForm = ({
 						error={!!errors.dateOfBirth}
 						helperText={errors.dateOfBirth}
 						value={values.dateOfBirth}
+					/>
+
+					<FormControlLabel
+						style={{ width: '100%', marginBottom: 20 }}
+						label="Quản trị viên"
+						control={<Checkbox />}
+						checked={values.admin}
+						onChange={(_, checked) =>
+							handleChange({
+								target: { name: 'admin', value: checked },
+							})
+						}
 					/>
 
 					{!hidePassword && (

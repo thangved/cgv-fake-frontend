@@ -25,9 +25,9 @@ export async function getServerSideProps() {
 				title: 'SHAZAM! FURY OF THE GODS',
 				brief: 'SHAZAM! CƠN THỊNH NỘ CỦA CÁC VỊ THẦN',
 				slug: 'shazam-fury-of-the-gods',
-				verThumbnail:
+				verPoster:
 					'https://cdn.galaxycine.vn/media/2023/2/10/shazam-3_1675998610941.jpg',
-				horThumbnail:
+				horPoster:
 					'https://cdn.galaxycine.vn/media/2023/2/10/shazam-2_1675998615953.jpg',
 				trailer: 'https://www.youtube.com/watch?v=l37LjoV9W7M',
 				minutes: 130,
@@ -77,10 +77,10 @@ const Movie = ({ movieDetais, cinemaShows, showNows }) => {
 					<Row>
 						<Col xs={12} md={3}>
 							<AspectRatio
-								className={styles.thumbnail}
+								className={styles.Poster}
 								ratio={0.7}
 								style={{
-									backgroundImage: `url(${movieDetais.verThumbnail})`,
+									backgroundImage: `url(${movieDetais.verPoster})`,
 								}}
 							>
 								<div>

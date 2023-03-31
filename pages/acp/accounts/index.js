@@ -42,7 +42,7 @@ const Accounts = () => {
 		try {
 			await AccountService.deleteById(deleteId);
 		} catch (error) {
-			toast.error(error.response.data.message);
+			toast.error(error);
 		} finally {
 			setDeleteId(null);
 			refetch();
@@ -91,6 +91,14 @@ const Accounts = () => {
 							if (!value) return <i>Chưa đặt</i>;
 
 							return value?.name;
+						},
+						flex: 1,
+					},
+					{
+						field: 'admin',
+						headerName: 'Quản trị',
+						renderCell({ value }) {
+							return value ? 'Có' : 'Không';
 						},
 						flex: 1,
 					},

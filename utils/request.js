@@ -17,7 +17,7 @@ request.interceptors.response.use(
 		return res.data;
 	},
 	(error) => {
-		throw error.response.data.message;
+		throw error.response?.data.message || error.toString();
 	}
 );
 

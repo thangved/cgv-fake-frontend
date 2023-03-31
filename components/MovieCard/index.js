@@ -8,7 +8,7 @@ import styles from './MovieCard.module.css';
 const MovieCard = ({ details, ratio = 1.7, dark = false }) => {
 	return (
 		<Link
-			href={details.url}
+			href={`/movies/${details.slug}`}
 			className={clsx(styles.wrapper, {
 				[styles.dark]: dark,
 			})}

@@ -1,15 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import MovieService from '@/services/movie.service';
+import CategoryService from '@/services/category.service';
 import {
+	faEarthAsia,
 	faFileCirclePlus,
+	faLock,
 	faPen,
 	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
+	Chip,
 	Container,
 	Dialog,
 	DialogActions,
@@ -22,25 +25,25 @@ import {
 	GridToolbarContainer,
 	viVN,
 } from '@mui/x-data-grid';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-const Movies = () => {
+const Categories = () => {
 	const {
-		data: movies,
+		data: categories,
 		isLoading,
-		isError,
 		refetch,
-	} = useQuery(['movies'], MovieService.getAll);
+	} = useQuery(['banners'], CategoryService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();
 
 	const handleDelete = async () => {
 		try {
-			await MovieService.delete(deleteId);
+			await CategoryService.delete(deleteId);
 		} catch (error) {
 			alert(error.response.message);
 		} finally {
@@ -49,19 +52,18 @@ const Movies = () => {
 		}
 	};
 
-	if (isLoading || isError) return <LoadingOverlay />;
+	if (isLoading) return <LoadingOverlay />;
 
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Phim</h2>
+				<h2 style={{ margin: '20px 0' }}>Thể loại phim</h2>
 				<DataGrid
-					rowHeight={300}
 					autoHeight
 					slots={{
 						toolbar: () => (
 							<GridToolbarContainer>
-								<Link href="/acp/movies/create">
+								<Link href="/acp/categories/create">
 									<Button
 										startIcon={
 											<FontAwesomeIcon
@@ -80,53 +82,27 @@ const Movies = () => {
 							field: 'id',
 							headerName: 'Mã',
 						},
+
 						{
-							field: 'title',
-							headerName: 'Tiêu đề phim',
+							field: 'name',
+							headerName: 'Tên thể loại',
 							flex: 1,
 						},
+
 						{
-							field: 'brief',
-							headerName: 'Mô tả ngắn',
+							field: 'createdAt',
+							headerName: 'Tạo vào',
 							flex: 1,
-						},
-						{
-							field: 'slug',
-							headerName: 'Slug',
-							flex: 1,
-						},
-						{
-							field: 'verPoster',
-							headerName: 'Poster dọc',
-							flex: 1,
-							renderCell({ value, row }) {
-								return (
-									<img
-										src={value}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '100%',
-										}}
-										alt={row.title}
-									/>
-								);
+							renderCell({ value }) {
+								return dayjs(value).format('hh:mm, DD/MM/YYYY');
 							},
 						},
 						{
-							field: 'horPoster',
-							headerName: 'Poster ngang',
+							field: 'updatedAt',
+							headerName: 'Cập nhật lần cuối',
 							flex: 1,
-							renderCell({ value, row }) {
-								return (
-									<img
-										src={value}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '100%',
-										}}
-										alt={row.title}
-									/>
-								);
+							renderCell({ value }) {
+								return dayjs(value).format('hh:mm, DD/MM/YYYY');
 							},
 						},
 						{
@@ -141,7 +117,7 @@ const Movies = () => {
 										label="Edit"
 										onClick={() => {
 											router.push(
-												`/acp/movies/${row.id}/edit`
+												`/acp/categories/${row.id}/edit`
 											);
 										}}
 									/>,
@@ -159,7 +135,7 @@ const Movies = () => {
 							},
 						},
 					]}
-					rows={movies}
+					rows={categories}
 					loading={isLoading}
 					localeText={
 						viVN.components.MuiDataGrid.defaultProps.localeText
@@ -169,10 +145,10 @@ const Movies = () => {
 			</Container>
 
 			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa phim</DialogTitle>
+				<DialogTitle>Xóa thể loại phim</DialogTitle>
 				<DialogContent>
-					Bạn có muốn xóa bộ phim này? những hóa đơn liên quan tới bộ
-					phim này có thể sẽ bị ảnh hưởng!
+					Bạn có muốn xóa thể lọại này? Những bộ phim có thể loại này
+					có thể sẽ bị ảnh hưởng!
 				</DialogContent>
 				<DialogActions>
 					<Button variant="contained" onClick={handleDelete}>
@@ -185,6 +161,6 @@ const Movies = () => {
 	);
 };
 
-Movies.layout = AcpLayout;
+Categories.layout = AcpLayout;
 
-export default Movies;
+export default Categories;

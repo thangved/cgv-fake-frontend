@@ -1,7 +1,8 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import BannerForm from '@/forms/banner';
+import MovieForm from '@/forms/movie';
 import AcpLayout from '@/layouts/AcpLayout';
-import BannerService from '@/services/banner.service';
+import MovieService from '@/services/movie.service';
 import { Container } from '@mui/system';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -9,26 +10,29 @@ import { useQuery } from 'react-query';
 const EditGender = () => {
 	const router = useRouter();
 
-	const { data: banner, isLoading } = useQuery(
+	const { data: movie, isLoading } = useQuery(
 		['banner', router.query.id],
-		() => BannerService.getById(router.query.id)
+		() => MovieService.getByIdOrSlug(router.query.id)
 	);
 
 	const handleUpdate = async (values) => {
 		try {
-			await BannerService.update(router.query.id, values);
+			await MovieService.update(router.query.id, values);
 			router.back();
 		} catch (error) {}
 	};
 
-	if (isLoading) return <LoadingOverlay />;
+	if (isLoading || !movie) return <LoadingOverlay />;
 
 	return (
 		<Container>
-			<h2 style={{ margin: '20px 0' }}>Cập nhật banner</h2>
-			<BannerForm
+			<h2 style={{ margin: '20px 0' }}>Cập nhật phim</h2>
+			<MovieForm
 				submitText="Cập nhật"
-				initialValues={banner}
+				initialValues={{
+					...movie,
+					categories: movie.categories.map((e) => e.id),
+				}}
 				onSubmit={handleUpdate}
 			/>
 		</Container>

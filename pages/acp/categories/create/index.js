@@ -1,20 +1,20 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
-import MovieForm from '@/forms/movie';
+import CategoryForm from '@/forms/category';
 import AcpLayout from '@/layouts/AcpLayout';
-import MovieService from '@/services/movie.service';
+import CategoryService from '@/services/category.service';
 import { Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-const CreateMovie = () => {
+const CreateCategory = () => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 
 	const handleCreate = async (values) => {
 		try {
 			setLoading(true);
-			await MovieService.create(values);
+			await CategoryService.create(values);
 			router.back();
 		} catch (error) {
 			toast.error(error);
@@ -26,14 +26,14 @@ const CreateMovie = () => {
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Thêm phim</h2>
-				<MovieForm submitText="Thêm" onSubmit={handleCreate} />
+				<h2 style={{ margin: '20px 0' }}>Thêm thể loại phim</h2>
+				<CategoryForm submitText="Thêm" onSubmit={handleCreate} />
 			</Container>
 			{loading && <LoadingOverlay />}
 		</>
 	);
 };
 
-CreateMovie.layout = AcpLayout;
+CreateCategory.layout = AcpLayout;
 
-export default CreateMovie;
+export default CreateCategory;

@@ -2,21 +2,23 @@ import Button from '@/components/Button';
 import MovieCard from '@/components/MovieCard';
 import Slider from '@/components/Slider';
 import Tabs from '@/components/Tabs';
-import movies from '@/mock/movies';
 import BannerService from '@/services/banner.service';
+import MovieService from '@/services/movie.service';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Col, Container, Row } from 'react-grid-system';
 
 export async function getServerSideProps() {
 	const banners = await BannerService.getAllPublic();
+	const moviesShowNow = await MovieService.getAll({ show: 'now' });
+	const moviesShowComing = await MovieService.getAll({ show: 'coming' });
 
 	return {
-		props: { movies, banners },
+		props: { moviesShowNow, moviesShowComing, banners },
 	};
 }
 
-export default function Home({ movies, banners }) {
+export default function Home({ moviesShowNow, moviesShowComing, banners }) {
 	return (
 		<>
 			<Head>
@@ -42,7 +44,7 @@ export default function Home({ movies, banners }) {
 							component: (
 								<div style={{ paddingTop: 10 }}>
 									<Row gutterWidth={10}>
-										{movies.map((e, index) => (
+										{moviesShowNow.map((e, index) => (
 											<Col
 												xs={12}
 												md={6}
@@ -67,7 +69,7 @@ export default function Home({ movies, banners }) {
 							component: (
 								<div style={{ paddingTop: 10 }}>
 									<Row gutterWidth={10}>
-										{movies.reverse().map((e, index) => (
+										{moviesShowComing.map((e, index) => (
 											<Col
 												xs={12}
 												md={6}

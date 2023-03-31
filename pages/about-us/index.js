@@ -2,11 +2,12 @@ import styles from './AboutUs.module.css';
 
 import Button from '@/components/Button';
 import MovieCard from '@/components/MovieCard';
+import MovieService from '@/services/movie.service';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Col, Container, Row } from 'react-grid-system';
 
-async function getServerSideProps() {
+export async function getServerSideProps() {
 	const moviesShowNow = await MovieService.getAll({ show: 'now' });
 
 	return {

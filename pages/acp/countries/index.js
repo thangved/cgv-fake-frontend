@@ -32,7 +32,7 @@ const Categories = () => {
 		data: countries,
 		isLoading,
 		refetch,
-	} = useQuery(['genders'], CountryService.getAll);
+	} = useQuery(['countries'], CountryService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();

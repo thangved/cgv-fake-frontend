@@ -1,18 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import BannerService from '@/services/banner.service';
+import MovieService from '@/services/movie.service';
 import {
-	faEarthAsia,
 	faFileCirclePlus,
-	faLock,
 	faPen,
 	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
-	Chip,
 	Container,
 	Dialog,
 	DialogActions,
@@ -25,25 +22,25 @@ import {
 	GridToolbarContainer,
 	viVN,
 } from '@mui/x-data-grid';
-import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-const Banners = () => {
+const Movies = () => {
 	const {
-		data: banners,
+		data: movies,
 		isLoading,
+		isError,
 		refetch,
-	} = useQuery(['banners'], BannerService.getAll);
+	} = useQuery(['movies'], MovieService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();
 
 	const handleDelete = async () => {
 		try {
-			await BannerService.delete(deleteId);
+			await MovieService.delete(deleteId);
 		} catch (error) {
 			alert(error.response.message);
 		} finally {
@@ -52,12 +49,12 @@ const Banners = () => {
 		}
 	};
 
-	if (isLoading) return <LoadingOverlay />;
+	if (isLoading || isError) return <LoadingOverlay />;
 
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Banner</h2>
+				<h2 style={{ margin: '20px 0' }}>Phim</h2>
 				<DataGrid
 					rowHeight={300}
 					autoHeight
@@ -84,61 +81,52 @@ const Banners = () => {
 							headerName: 'Mã',
 						},
 						{
-							field: 'image',
-							headerName: 'Ảnh',
+							field: 'title',
+							headerName: 'Tiêu đề phim',
 							flex: 1,
-							renderCell({ value }) {
+						},
+						{
+							field: 'brief',
+							headerName: 'Mô tả ngắn',
+							flex: 1,
+						},
+						{
+							field: 'slug',
+							headerName: 'Slug',
+							flex: 1,
+						},
+						{
+							field: 'verPoster',
+							headerName: 'Poster dọc',
+							flex: 1,
+							renderCell({ value, row }) {
 								return (
 									<img
 										src={value}
-										alt="Banner"
 										style={{
-											maxHeight: 300,
 											maxWidth: '100%',
+											maxHeight: '100%',
 										}}
+										alt={row.title}
 									/>
 								);
 							},
 						},
 						{
-							field: 'url',
-							headerName: 'Đường dẫn',
+							field: 'horPoster',
+							headerName: 'Poster ngang',
 							flex: 1,
-						},
-						{
-							field: 'visible',
-							headerName: 'Hiển thị',
-							flex: 1,
-							renderCell({ value }) {
+							renderCell({ value, row }) {
 								return (
-									<Chip
-										icon={
-											<FontAwesomeIcon
-												icon={
-													value ? faEarthAsia : faLock
-												}
-											/>
-										}
-										label={value ? 'Hiển thị' : 'Ẩn'}
-										color={value ? 'success' : 'error'}
+									<img
+										src={value}
+										style={{
+											maxWidth: '100%',
+											maxHeight: '100%',
+										}}
+										alt={row.title}
 									/>
 								);
-							},
-						},
-						{
-							field: 'createdAt',
-							headerName: 'Tạo vào',
-							flex: 1,
-							renderCell({ value }) {
-								return dayjs(value).format('hh:mm, DD/MM/YYYY');
-							},
-						},
-						{
-							field: 'updatedAt',
-							headerName: 'Cập nhật lần cuối',
-							flex: 1,
-							renderCell({ value }) {
-								return dayjs(value).format('hh:mm, DD/MM/YYYY');
 							},
 						},
 						{
@@ -171,7 +159,7 @@ const Banners = () => {
 							},
 						},
 					]}
-					rows={banners}
+					rows={movies}
 					loading={isLoading}
 					localeText={
 						viVN.components.MuiDataGrid.defaultProps.localeText
@@ -197,6 +185,6 @@ const Banners = () => {
 	);
 };
 
-Banners.layout = AcpLayout;
+Movies.layout = AcpLayout;
 
-export default Banners;
+export default Movies;

@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
 class MovieService {
-	static getAll() {
-		return request.get('movies');
+	static getAll(params = {}) {
+		return request.get('movies', { params });
 	}
 
 	static create(payload) {
@@ -17,7 +17,7 @@ class MovieService {
 		return request.delete(`movies/${id}`);
 	}
 
-	static getById(id) {
+	static getByIdOrSlug(id) {
 		if (!id) return;
 		return request.get(`movies/${id}`);
 	}

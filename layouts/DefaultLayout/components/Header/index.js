@@ -2,19 +2,35 @@
 import Images from '@/assets/images';
 import AuthModal from '@/components/AuthModal';
 import Button from '@/components/Button';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import MovieCard from '@/components/MovieCard';
-import movies from '@/mock/movies';
+import MovieService from '@/services/movie.service';
 import { faAngleDown, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
+import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import styles from './Header.module.css';
 
 const Header = () => {
 	const [openAuth, setOpenAuth] = useState(false);
 	const currentUser = useSelector((state) => state.user.value);
+
+	const { data: moviesShowNow, isLoading: loading1 } = useQuery(
+		['movies', 'now'],
+		() => MovieService.getAll({ show: 'now' })
+	);
+
+	const { data: moviesShowComing, isLoading: loading2 } = useQuery(
+		['movies', 'coming'],
+		() => MovieService.getAll({ show: 'coming' })
+	);
+
+	console.log(moviesShowNow);
+
+	if (loading1 || loading2) return <LoadingOverlay />;
 
 	return (
 		<>
@@ -71,7 +87,7 @@ const Header = () => {
 								</Link>
 
 								<Row>
-									{movies.slice(0, 4).map((e, index) => (
+									{moviesShowNow.map((e, index) => (
 										<Col xs={12} md={6} lg={3} key={index}>
 											<MovieCard dark details={e} />
 										</Col>
@@ -82,19 +98,11 @@ const Header = () => {
 									<h4>PHIM ĐANG CHIẾU</h4>
 								</Link>
 								<Row>
-									{movies
-										.slice(0, 4)
-										.reverse()
-										.map((e, index) => (
-											<Col
-												xs={12}
-												md={6}
-												lg={3}
-												key={index}
-											>
-												<MovieCard dark details={e} />
-											</Col>
-										))}
+									{moviesShowComing.map((e, index) => (
+										<Col xs={12} md={6} lg={3} key={index}>
+											<MovieCard dark details={e} />
+										</Col>
+									))}
 								</Row>
 							</div>
 							<Link href="/about-us">

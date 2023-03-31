@@ -1,16 +1,18 @@
 import MovieCard from '@/components/MovieCard';
 import Tabs from '@/components/Tabs';
-import movies from '@/mock/movies';
+import MovieService from '@/services/movie.service';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Col, Container, Row } from 'react-grid-system';
 
 export async function getServerSideProps() {
+	const showNows = await MovieService.getAll({ show: 'now' });
+	const showComings = await MovieService.getAll({ show: 'coming' });
+
 	return {
-		props: { showNows: movies, showComings: [...movies].reverse() },
+		props: { showNows, showComings },
 	};
 }
-
 const showTypes = ['now', 'coming'];
 const titles = ['Phim đang chiếu', 'Phim sắp chiếu'];
 

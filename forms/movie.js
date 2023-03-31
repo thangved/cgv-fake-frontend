@@ -1,4 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+import LoadingOverlay from '@/components/LoadingOverlay';
+import { uploadFile } from '@/firebase';
+import CategoryService from '@/services/category.service';
+import CountryService from '@/services/country.service';
 import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -15,6 +19,7 @@ import dynamic from 'next/dynamic';
 import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Row } from 'react-grid-system';
 import ReactPlayer from 'react-player';
+import { useQuery } from 'react-query';
 import * as Yup from 'yup';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
@@ -37,6 +42,18 @@ const MovieForm = ({
 	submitText = 'Gửi',
 	onSubmit,
 }) => {
+	const { data: countries, isLoading: loadingCountries } = useQuery(
+		['countries'],
+		CountryService.getAll
+	);
+
+	const { data: categories, isLoading: loadingCategories } = useQuery(
+		['categories'],
+		CategoryService.getAll
+	);
+
+	if (loadingCountries || loadingCategories) return <LoadingOverlay />;
+
 	return (
 		<Formik
 			initialValues={initialValues}
@@ -138,8 +155,11 @@ const MovieForm = ({
 									<option value="0" disabled>
 										Chưa chọn
 									</option>
-									<option value="1">Vietnam</option>
-									<option value="2">Japan</option>
+									{countries.map((e) => (
+										<option key={e.id} value={e.id}>
+											{e.name}
+										</option>
+									))}
 								</Select>
 
 								<FormHelperText error={!!errors.countryId}>
@@ -162,8 +182,11 @@ const MovieForm = ({
 									multiple
 									onChange={handleChange}
 								>
-									<MenuItem value="1">Vietnam</MenuItem>
-									<MenuItem value="2">Japan</MenuItem>
+									{categories.map((e) => (
+										<MenuItem value={e.id} key={e.id}>
+											{e.name}
+										</MenuItem>
+									))}
 								</Select>
 
 								<FormHelperText error={!!errors.categories}>
@@ -197,8 +220,37 @@ const MovieForm = ({
 								component="label"
 							>
 								Poster dọc
-								<input hidden type="file" accept="image/*" />
+								<input
+									hidden
+									type="file"
+									accept="image/*"
+									onChange={async (event) => {
+										const file = event.target.files[0];
+										if (!file) return;
+
+										const imageURL = await uploadFile(file);
+
+										handleChange({
+											target: {
+												name: 'verPoster',
+												value: imageURL,
+											},
+										});
+									}}
+								/>
 							</Button>
+
+							{values.verPoster && (
+								<img
+									src={values.verPoster}
+									alt={values.title}
+									style={{
+										maxWidth: '100%',
+										maxHeight: 300,
+										marginTop: 10,
+									}}
+								/>
+							)}
 
 							<FormHelperText
 								style={{ marginBottom: 20 }}
@@ -217,8 +269,38 @@ const MovieForm = ({
 								component="label"
 							>
 								Poster ngang
-								<input hidden type="file" accept="image/*" />
+								<input
+									hidden
+									type="file"
+									accept="image/*"
+									onChange={async (event) => {
+										const file = event.target.files[0];
+										if (!file) return;
+
+										const imageURL = await uploadFile(file);
+
+										handleChange({
+											target: {
+												name: 'horPoster',
+												value: imageURL,
+											},
+										});
+									}}
+								/>
 							</Button>
+
+							{values.horPoster && (
+								<img
+									src={values.horPoster}
+									alt={values.title}
+									style={{
+										maxWidth: '100%',
+										maxHeight: 300,
+										marginTop: 10,
+									}}
+								/>
+							)}
+
 							<FormHelperText
 								style={{ marginBottom: 20 }}
 								error={!!errors.horPoster}
@@ -286,7 +368,7 @@ const MovieForm = ({
 					<Button
 						type="submit"
 						variant="contained"
-						style={{ marginTop: 10 }}
+						style={{ marginTop: 10, marginBottom: 10 }}
 					>
 						{submitText}
 					</Button>

@@ -28,8 +28,6 @@ const Header = () => {
 		() => MovieService.getAll({ show: 'coming' })
 	);
 
-	console.log(moviesShowNow);
-
 	if (loading1 || loading2) return <LoadingOverlay />;
 
 	return (

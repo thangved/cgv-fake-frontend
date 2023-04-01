@@ -3,7 +3,12 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import { uploadFile } from '@/firebase';
 import CategoryService from '@/services/category.service';
 import CountryService from '@/services/country.service';
-import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
+import {
+	faBars,
+	faFileUpload,
+	faImage,
+	faT,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
@@ -16,6 +21,7 @@ import {
 } from '@mui/material';
 import { Formik } from 'formik';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Row } from 'react-grid-system';
 import ReactPlayer from 'react-player';
@@ -23,6 +29,21 @@ import { useQuery } from 'react-query';
 import * as Yup from 'yup';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
+
+const tabs = [
+	{
+		label: 'Thông tin cơ bản',
+		icon: faT,
+	},
+	{
+		label: 'Media',
+		icon: faImage,
+	},
+	{
+		label: 'Nội dung phim',
+		icon: faBars,
+	},
+];
 
 const MovieForm = ({
 	initialValues = {
@@ -36,12 +57,14 @@ const MovieForm = ({
 		minutes: 90,
 		content: '',
 		showAt: null,
+		showTo: null,
 		categories: [],
 		countries: [],
 	},
 	submitText = 'Gửi',
 	onSubmit,
 }) => {
+	const [tabIndex, setTabIndex] = useState(0);
 	const { data: countries, isLoading: loadingCountries } = useQuery(
 		['countries'],
 		CountryService.getAll
@@ -78,13 +101,16 @@ const MovieForm = ({
 				showAt: Yup.date('Ngày chiếu không hợp lệ').required(
 					'Vui lòng chọn ngày chíếu'
 				),
+				showTo: Yup.date('Ngày kết thúc không hợp lệ').required(
+					'Vui lòng chọn ngày kết thúc'
+				),
 			})}
 			enableReinitialize
 			onSubmit={onSubmit}
 		>
 			{({ values, errors, handleChange, handleSubmit }) => (
 				<form onSubmit={handleSubmit}>
-					<h3 style={{ margin: '10px 0' }}>Thông tin cơ bản</h3>
+					<h3 style={{ margin: '20px 0' }}>Thông tin cơ bản</h3>
 					<Row>
 						<Col sm={12} md={6}>
 							<TextField
@@ -349,6 +375,20 @@ const MovieForm = ({
 								onChange={handleChange}
 								error={!!errors.showAt}
 								helperText={errors.showAt}
+							/>
+
+							<TextField
+								style={{ marginBottom: 20 }}
+								size="small"
+								fullWidth
+								value={values.showTo}
+								placeholder="Đến ngày"
+								label="Đến ngày"
+								name="showTo"
+								type="date"
+								onChange={handleChange}
+								error={!!errors.showTo}
+								helperText={errors.showTo}
 							/>
 						</Col>
 					</Row>

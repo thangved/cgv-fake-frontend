@@ -122,6 +122,7 @@ const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 										Thể loại:
 									</span>
 									<span>
+										{' '}
 										{movieDetails.categories
 											.map((e) => e.name)
 											.join(', ')}

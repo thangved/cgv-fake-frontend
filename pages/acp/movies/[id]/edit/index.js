@@ -1,5 +1,4 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
-import BannerForm from '@/forms/banner';
 import MovieForm from '@/forms/movie';
 import AcpLayout from '@/layouts/AcpLayout';
 import MovieService from '@/services/movie.service';

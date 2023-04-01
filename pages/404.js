@@ -18,6 +18,10 @@ const _404 = () => {
 	const currentUser = useSelector((state) => state.user.value);
 
 	useEffect(() => {
+		if (!wrapperRef.current) {
+			return;
+		}
+
 		const interval = setInterval(createStar, 100);
 
 		function createStar() {

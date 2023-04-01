@@ -75,6 +75,9 @@ const MovieForm = ({
 					.url('Link trailer không hợp lệ'),
 				minutes: Yup.number().required('Vui lòng nhập thời lượng phim'),
 				content: Yup.string().required('Vui lòng nhập nội dung phim'),
+				showAt: Yup.date('Ngày chiếu không hợp lệ').required(
+					'Vui lòng chọn ngày chíếu'
+				),
 			})}
 			enableReinitialize
 			onSubmit={onSubmit}
@@ -264,7 +267,7 @@ const MovieForm = ({
 
 							<Button
 								fullWidth
-								color={errors.verPoster ? 'error' : 'primary'}
+								color={errors.horPoster ? 'error' : 'primary'}
 								variant="outlined"
 								startIcon={
 									<FontAwesomeIcon icon={faFileUpload} />

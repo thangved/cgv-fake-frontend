@@ -9,6 +9,8 @@ const Slider = ({ items = [] }) => {
 			className={styles.wrapper}
 			swipeable
 			infiniteLoop
+			autoPlay
+			emulateTouch
 			showThumbs={false}
 			showStatus={false}
 		>

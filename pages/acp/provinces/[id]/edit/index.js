@@ -1,26 +1,26 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
-import BannerForm from '@/forms/banner';
+import ProvinceForm from '@/forms/province';
 import AcpLayout from '@/layouts/AcpLayout';
-import BannerService from '@/services/banner.service';
+import ProvinceService from '@/services/province.service';
 import { Container } from '@mui/system';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
-const EditBanner = () => {
+const EditProvince = () => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 
-	const { data: banner, isLoading } = useQuery(
-		['banner', router.query.id],
-		() => BannerService.getById(router.query.id)
+	const { data: province, isLoading } = useQuery(
+		['province', router.query.id],
+		() => ProvinceService.getById(router.query.id)
 	);
 
 	const handleUpdate = async (values) => {
 		try {
 			setLoading(true);
-			await BannerService.update(router.query.id, values);
+			await ProvinceService.update(router.query.id, values);
 			router.back();
 		} catch (error) {
 			toast.error(error);
@@ -34,10 +34,10 @@ const EditBanner = () => {
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Cập nhật banner</h2>
-				<BannerForm
+				<h2 style={{ margin: '20px 0' }}>Cập nhật tỉnh thành</h2>
+				<ProvinceForm
 					submitText="Cập nhật"
-					initialValues={banner}
+					initialValues={province}
 					onSubmit={handleUpdate}
 				/>
 			</Container>
@@ -46,6 +46,6 @@ const EditBanner = () => {
 	);
 };
 
-EditBanner.layout = AcpLayout;
+EditProvince.layout = AcpLayout;
 
-export default EditBanner;
+export default EditProvince;

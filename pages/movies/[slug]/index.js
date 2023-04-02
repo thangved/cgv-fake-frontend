@@ -16,6 +16,9 @@ import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Container, Row } from 'react-grid-system';
 import ReactPlayer from 'react-player';
 import styles from './Movie.module.css';
+import MovieForm from '@/forms/movie';
+import { useSelector } from 'react-redux';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 export async function getServerSideProps(context) {
 	const movieDetails = await MovieService.getByIdOrSlug(context.query.slug);
@@ -32,6 +35,20 @@ export async function getServerSideProps(context) {
 
 const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 	const [showTrailer, setShowTrailer] = useState(false);
+	const [editing, setEditing] = useState(false);
+
+	const currentUser = useSelector((state) => state.user.value);
+
+	const handleUpdate = async (values) => {
+		try {
+			await MovieService.update(values.id, values);
+		} catch (error) {
+		} finally {
+			setEditing(false);
+		}
+	};
+
+	if (!currentUser) return <LoadingOverlay />;
 
 	return (
 		<Container className={styles.wrapper}>
@@ -40,116 +57,154 @@ const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 			</Head>
 			<Row>
 				<Col xs={12} md={9}>
-					<Row>
-						<Col xs={12} md={3}>
-							<AspectRatio
-								className={styles.Poster}
-								ratio={0.7}
-								style={{
-									backgroundImage: `url(${movieDetails.verPoster})`,
+					{editing ? (
+						<MovieForm
+							initialValues={{
+								...movieDetails,
+								countries: movieDetails.countries.map(
+									(e) => e.id
+								),
+								categories: movieDetails.categories.map(
+									(e) => e.id
+								),
+							}}
+							submitText="Lưu"
+							onSubmit={handleUpdate}
+						/>
+					) : (
+						<>
+							<Row style={{ position: 'relative' }}>
+								{currentUser.admin && (
+									<Button
+										outlined
+										style={{
+											position: 'absolute',
+											right: 0,
+											top: 0,
+											zIndex: 100,
+										}}
+										onClick={() => setEditing(!editing)}
+									>
+										Chỉnh sửa
+									</Button>
+								)}
+
+								<Col xs={12} md={3}>
+									<AspectRatio
+										className={styles.Poster}
+										ratio={0.7}
+										style={{
+											backgroundImage: `url(${movieDetails.verPoster})`,
+										}}
+									>
+										<div>
+											<FontAwesomeIcon
+												icon={faCirclePlay}
+												className={styles.playButton}
+												size="4x"
+												onClick={() =>
+													setShowTrailer(true)
+												}
+											/>
+										</div>
+									</AspectRatio>
+								</Col>
+
+								<Modal
+									open={showTrailer}
+									title={movieDetails.title}
+									onClose={() => setShowTrailer(false)}
+								>
+									<AspectRatio ratio={16 / 9}>
+										<ReactPlayer
+											controls
+											width="100%"
+											height="100%"
+											playing
+											url={movieDetails.trailer}
+										/>
+									</AspectRatio>
+								</Modal>
+
+								<Col xs={12} md={9}>
+									<h2 className={styles.title}>
+										{movieDetails.title}
+									</h2>
+
+									<h2 className={styles.brief}>
+										{movieDetails.brief}
+									</h2>
+
+									<div className={styles.details}>
+										<span>
+											<FontAwesomeIcon icon={faClock} />{' '}
+											{movieDetails.minutes} phút
+										</span>
+
+										<div>
+											<span className={styles.label}>
+												Đạo diễn:
+											</span>
+											<span>
+												{' '}
+												{movieDetails.director}
+											</span>
+										</div>
+
+										<div>
+											<span className={styles.label}>
+												Quốc gia:
+											</span>
+											<span>
+												{' '}
+												{movieDetails.countries
+													.map((e) => e.name)
+													.join(', ')}
+											</span>
+										</div>
+
+										<div>
+											<span className={styles.label}>
+												Nhà sản xuất:
+											</span>
+											<span> {movieDetails.studio}</span>
+										</div>
+
+										<div>
+											<span className={styles.label}>
+												Thể loại:
+											</span>
+											<span>
+												{' '}
+												{movieDetails.categories
+													.map((e) => e.name)
+													.join(', ')}
+											</span>
+										</div>
+
+										<div>
+											<span className={styles.label}>
+												Ngày khởi chiếu:
+											</span>
+											<span>
+												{dayjs(
+													movieDetails.showAt
+												).format(' DD/MM/YYYY')}
+											</span>
+										</div>
+									</div>
+								</Col>
+							</Row>
+							<h3>NỘI DUNG PHIM</h3>
+
+							<div
+								className={styles.content}
+								dangerouslySetInnerHTML={{
+									__html: movieDetails.content,
 								}}
-							>
-								<div>
-									<FontAwesomeIcon
-										icon={faCirclePlay}
-										className={styles.playButton}
-										size="4x"
-										onClick={() => setShowTrailer(true)}
-									/>
-								</div>
-							</AspectRatio>
-						</Col>
-
-						<Modal
-							open={showTrailer}
-							title={movieDetails.title}
-							onClose={() => setShowTrailer(false)}
-						>
-							<AspectRatio ratio={16 / 9}>
-								<ReactPlayer
-									controls
-									width="100%"
-									height="100%"
-									playing
-									url={movieDetails.trailer}
-								/>
-							</AspectRatio>
-						</Modal>
-
-						<Col xs={12} md={9}>
-							<h2 className={styles.title}>
-								{movieDetails.title}
-							</h2>
-
-							<h2 className={styles.brief}>
-								{movieDetails.brief}
-							</h2>
-
-							<div className={styles.details}>
-								<span>
-									<FontAwesomeIcon icon={faClock} />{' '}
-									{movieDetails.minutes} phút
-								</span>
-
-								<div>
-									<span className={styles.label}>
-										Đạo diễn:
-									</span>
-									<span> {movieDetails.director}</span>
-								</div>
-
-								<div>
-									<span className={styles.label}>
-										Quốc gia:
-									</span>
-									<span>
-										{' '}
-										{movieDetails.countries
-											.map((e) => e.name)
-											.join(', ')}
-									</span>
-								</div>
-
-								<div>
-									<span className={styles.label}>
-										Nhà sản xuất:
-									</span>
-									<span> {movieDetails.studio}</span>
-								</div>
-
-								<div>
-									<span className={styles.label}>
-										Thể loại:
-									</span>
-									<span>
-										{' '}
-										{movieDetails.categories
-											.map((e) => e.name)
-											.join(', ')}
-									</span>
-								</div>
-
-								<div>
-									<span className={styles.label}>
-										Ngày khởi chiếu:
-									</span>
-									<span>
-										{dayjs(movieDetails.showAt).format(
-											' DD/MM/YYYY'
-										)}
-									</span>
-								</div>
-							</div>
-						</Col>
-					</Row>
-					<h3>NỘI DUNG PHIM</h3>
-
-					<div
-						className={styles.content}
-						dangerouslySetInnerHTML={{
-							__html: movieDetails.content,
-						}}
-					></div>
+							></div>
+						</>
+					)}
 
 					<h3>LỊCH CHIẾU</h3>
 

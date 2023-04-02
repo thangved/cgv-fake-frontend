@@ -1,24 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import MovieService from '@/services/movie.service';
+import BannerService from '@/services/banner.service';
+import LanguageService from '@/services/language.service';
 import {
+	faEarthAsia,
 	faFileCirclePlus,
+	faLock,
 	faPen,
-	faTicket,
-	faTicketAlt,
-	faTicketSimple,
 	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
+	Chip,
 	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	IconButton,
 } from '@mui/material';
 import {
 	DataGrid,
@@ -26,25 +26,25 @@ import {
 	GridToolbarContainer,
 	viVN,
 } from '@mui/x-data-grid';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-const Movies = () => {
+const Languages = () => {
 	const {
-		data: movies,
+		data: languages,
 		isLoading,
-		isError,
 		refetch,
-	} = useQuery(['movies'], MovieService.getAll);
+	} = useQuery(['languages'], LanguageService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();
 
 	const handleDelete = async () => {
 		try {
-			await MovieService.delete(deleteId);
+			await LanguageService.delete(deleteId);
 		} catch (error) {
 			alert(error.response.message);
 		} finally {
@@ -53,19 +53,18 @@ const Movies = () => {
 		}
 	};
 
-	if (isLoading || isError) return <LoadingOverlay />;
+	if (isLoading) return <LoadingOverlay />;
 
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Phim</h2>
+				<h2 style={{ margin: '20px 0' }}>Banner</h2>
 				<DataGrid
-					rowHeight={300}
 					autoHeight
 					slots={{
 						toolbar: () => (
 							<GridToolbarContainer>
-								<Link href="/acp/movies/create">
+								<Link href="/acp/languages/create">
 									<Button
 										startIcon={
 											<FontAwesomeIcon
@@ -85,72 +84,24 @@ const Movies = () => {
 							headerName: 'Mã',
 						},
 						{
-							field: 'title',
-							headerName: 'Tiêu đề phim',
+							field: 'name',
+							headerName: 'Tên ngôn ngữ',
 							flex: 1,
 						},
 						{
-							field: 'brief',
-							headerName: 'Mô tả ngắn',
+							field: 'createdAt',
+							headerName: 'Tạo vào',
 							flex: 1,
-						},
-						{
-							field: 'slug',
-							headerName: 'Slug',
-							flex: 1,
-						},
-						{
-							field: 'verPoster',
-							headerName: 'Poster dọc',
-							flex: 1,
-							renderCell({ value, row }) {
-								return (
-									<img
-										src={value}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '100%',
-										}}
-										alt={row.title}
-									/>
-								);
+							renderCell({ value }) {
+								return dayjs(value).format('hh:mm, DD/MM/YYYY');
 							},
 						},
 						{
-							field: 'horPoster',
-							headerName: 'Poster ngang',
+							field: 'updatedAt',
+							headerName: 'Cập nhật lần cuối',
 							flex: 1,
-							renderCell({ value, row }) {
-								return (
-									<img
-										src={value}
-										style={{
-											maxWidth: '100%',
-											maxHeight: '100%',
-										}}
-										alt={row.title}
-									/>
-								);
-							},
-						},
-						{
-							field: 'show',
-							headerName: 'Suất chiếu',
-							renderCell({ row }) {
-								return (
-									<Link
-										href={{
-											pathname: '/acp/shows/create',
-											query: {
-												movieId: row.id,
-											},
-										}}
-									>
-										<IconButton>
-											<FontAwesomeIcon icon={faTicket} />
-										</IconButton>
-									</Link>
-								);
+							renderCell({ value }) {
+								return dayjs(value).format('hh:mm, DD/MM/YYYY');
 							},
 						},
 						{
@@ -165,7 +116,7 @@ const Movies = () => {
 										label="Edit"
 										onClick={() => {
 											router.push(
-												`/acp/movies/${row.id}/edit`
+												`/acp/languages/${row.id}/edit`
 											);
 										}}
 									/>,
@@ -183,7 +134,7 @@ const Movies = () => {
 							},
 						},
 					]}
-					rows={movies}
+					rows={languages}
 					loading={isLoading}
 					localeText={
 						viVN.components.MuiDataGrid.defaultProps.localeText
@@ -193,11 +144,8 @@ const Movies = () => {
 			</Container>
 
 			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa phim</DialogTitle>
-				<DialogContent>
-					Bạn có muốn xóa bộ phim này? những hóa đơn liên quan tới bộ
-					phim này có thể sẽ bị ảnh hưởng!
-				</DialogContent>
+				<DialogTitle>Xóa banner</DialogTitle>
+				<DialogContent>Bạn có muốn xóa banner này?</DialogContent>
 				<DialogActions>
 					<Button variant="contained" onClick={handleDelete}>
 						Xóa
@@ -209,6 +157,6 @@ const Movies = () => {
 	);
 };
 
-Movies.layout = AcpLayout;
+Languages.layout = AcpLayout;
 
-export default Movies;
+export default Languages;

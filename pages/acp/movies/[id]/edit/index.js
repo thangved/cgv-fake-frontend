@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
-const EditGender = () => {
+const EditMovie = () => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 
@@ -50,6 +50,6 @@ const EditGender = () => {
 	);
 };
 
-EditGender.layout = AcpLayout;
+EditMovie.layout = AcpLayout;
 
-export default EditGender;
+export default EditMovie;

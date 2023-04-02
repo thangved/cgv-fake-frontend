@@ -3,6 +3,9 @@ import {
 	faAngleDown,
 	faAngleLeft,
 	faBars,
+	faCouch,
+	faEarthAmerica,
+	faEarthAmericas,
 	faEarthAsia,
 	faFilm,
 	faHome,
@@ -79,6 +82,17 @@ export const adminNavItems = [
 		],
 	},
 	{
+		title: 'Loại ghế',
+		path: 'seat-types',
+		icon: <FontAwesomeIcon icon={faCouch} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
+	},
+	{
 		title: 'Thể loại phim',
 		path: 'categories',
 		icon: <FontAwesomeIcon icon={faBars} />,
@@ -93,6 +107,17 @@ export const adminNavItems = [
 		title: 'Quốc gia',
 		path: 'countries',
 		icon: <FontAwesomeIcon icon={faEarthAsia} />,
+		children: [
+			{
+				path: 'create',
+				title: 'Thêm',
+			},
+		],
+	},
+	{
+		title: 'Ngôn ngữ',
+		path: 'languages',
+		icon: <FontAwesomeIcon icon={faEarthAmericas} />,
 		children: [
 			{
 				path: 'create',

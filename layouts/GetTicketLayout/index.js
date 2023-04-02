@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 import styles from './GetTicketLayout.module.css';
 
-const GetTicketLayout = ({ children }) => {
+const GetTicketLayout = ({ children, title }) => {
 	const router = useRouter();
 	const currentUser = useSelector((state) => state.user.value);
 
@@ -25,7 +25,7 @@ const GetTicketLayout = ({ children }) => {
 				</div>
 
 				<div className={styles.title}>
-					<h4>Chọn ghế</h4>
+					<h4>{title}</h4>
 				</div>
 
 				<Link href="/account">

@@ -1,26 +1,26 @@
 import request from '@/utils/request';
 
-class SeatRow {
-	static getAll() {
-		return request.get('seatrows');
+class SeatRowService {
+	static getAll(params = {}) {
+		return request.get('seat-rows', { params });
 	}
 
 	static create(payload) {
-		return request.post('seatrows', payload);
+		return request.post('seat-rows', payload);
 	}
 
 	static update(id, payload) {
-		return request.put(`seatrows/${id}`, payload);
+		return request.put(`seat-rows/${id}`, payload);
 	}
 
 	static delete(id) {
-		return request.delete(`seatrows/${id}`);
+		return request.delete(`seat-rows/${id}`);
 	}
 
 	static getById(id) {
 		if (!id) return;
-		return request.get(`seatrows/${id}`);
+		return request.get(`seat-rows/${id}`);
 	}
 }
 
-export default SeatRow;
+export default SeatRowService;

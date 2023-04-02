@@ -1,12 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import CategoryService from '@/services/category.service';
-import {
-	faFileCirclePlus,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+import RoomService from '@/services/room.service';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
@@ -16,31 +12,25 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material';
-import {
-	DataGrid,
-	GridActionsCellItem,
-	GridToolbarContainer,
-	viVN,
-} from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, viVN } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-const Categories = () => {
+const Rooms = () => {
 	const {
-		data: categories,
+		data: rooms,
 		isLoading,
 		refetch,
-	} = useQuery(['banners'], CategoryService.getAll);
+	} = useQuery(['rooms'], RoomService.getAll);
 
 	const [deleteId, setDeleteId] = useState(null);
 	const router = useRouter();
 
 	const handleDelete = async () => {
 		try {
-			await CategoryService.delete(deleteId);
+			await RoomService.delete(deleteId);
 		} catch (error) {
 			alert(error.response.message);
 		} finally {
@@ -54,38 +44,26 @@ const Categories = () => {
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Thể loại phim</h2>
+				<h2 style={{ margin: '20px 0' }}>Rạp phim</h2>
 				<DataGrid
 					autoHeight
-					slots={{
-						toolbar: () => (
-							<GridToolbarContainer>
-								<Link href="/acp/categories/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
-										Thêm
-									</Button>
-								</Link>
-							</GridToolbarContainer>
-						),
-					}}
 					columns={[
 						{
 							field: 'id',
 							headerName: 'Mã',
 						},
-
 						{
 							field: 'name',
-							headerName: 'Tên thể loại',
+							headerName: 'Tên phòng chiếu',
 							flex: 1,
 						},
-
+						{
+							field: 'cinema',
+							headerName: 'Rạp',
+							renderCell({ value }) {
+								return value?.name;
+							},
+						},
 						{
 							field: 'createdAt',
 							headerName: 'Tạo vào',
@@ -114,7 +92,7 @@ const Categories = () => {
 										label="Edit"
 										onClick={() => {
 											router.push(
-												`/acp/categories/${row.id}/edit`
+												`/acp/rooms/${row.id}/edit`
 											);
 										}}
 									/>,
@@ -132,7 +110,7 @@ const Categories = () => {
 							},
 						},
 					]}
-					rows={categories}
+					rows={rooms}
 					loading={isLoading}
 					localeText={
 						viVN.components.MuiDataGrid.defaultProps.localeText
@@ -142,11 +120,8 @@ const Categories = () => {
 			</Container>
 
 			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa thể loại phim</DialogTitle>
-				<DialogContent>
-					Bạn có muốn xóa thể lọại này? Những bộ phim có thể loại này
-					có thể sẽ bị ảnh hưởng!
-				</DialogContent>
+				<DialogTitle>Xóa phòng</DialogTitle>
+				<DialogContent>Bạn có muốn xóa phòng này?</DialogContent>
 				<DialogActions>
 					<Button variant="contained" onClick={handleDelete}>
 						Xóa
@@ -158,6 +133,6 @@ const Categories = () => {
 	);
 };
 
-Categories.layout = AcpLayout;
+Rooms.layout = AcpLayout;
 
-export default Categories;
+export default Rooms;

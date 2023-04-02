@@ -1,7 +1,7 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
-import BannerForm from '@/forms/banner';
+import LanguageForm from '@/forms/language';
 import AcpLayout from '@/layouts/AcpLayout';
-import BannerService from '@/services/banner.service';
+import LanguageService from '@/services/language.service';
 import { Container } from '@mui/system';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -12,15 +12,15 @@ const EditBanner = () => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 
-	const { data: banner, isLoading } = useQuery(
-		['banner', router.query.id],
-		() => BannerService.getById(router.query.id)
+	const { data: language, isLoading } = useQuery(
+		['language', router.query.id],
+		() => LanguageService.getById(router.query.id)
 	);
 
 	const handleUpdate = async (values) => {
 		try {
 			setLoading(true);
-			await BannerService.update(router.query.id, values);
+			await LanguageService.update(router.query.id, values);
 			router.back();
 		} catch (error) {
 			toast.error(error);
@@ -35,9 +35,9 @@ const EditBanner = () => {
 		<>
 			<Container>
 				<h2 style={{ margin: '20px 0' }}>Cập nhật banner</h2>
-				<BannerForm
+				<LanguageForm
 					submitText="Cập nhật"
-					initialValues={banner}
+					initialValues={language}
 					onSubmit={handleUpdate}
 				/>
 			</Container>

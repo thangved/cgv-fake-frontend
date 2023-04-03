@@ -1,5 +1,7 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import {
+	faAngleDoubleLeft,
+	faAngleDoubleRight,
 	faAngleDown,
 	faAngleLeft,
 	faBars,
@@ -140,12 +142,6 @@ export const adminNavItems = [
 		title: 'Suất chiếu',
 		path: 'shows',
 		icon: <FontAwesomeIcon icon={faTicket} />,
-		children: [
-			{
-				path: 'create',
-				title: 'Thêm',
-			},
-		],
 	},
 ];
 
@@ -155,9 +151,9 @@ const Item = ({ item }) => {
 	return (
 		<>
 			<div className={styles.item} key={item.path}>
-				{item.icon}{' '}
-				<Link href={`/acp/${item.path}`} className={styles.text}>
-					{item.title}
+				<Link href={`/acp/${item.path}`} className={styles.left}>
+					{item.icon}
+					<span className={styles.text}>{item.title}</span>
 				</Link>
 				{item.children && (
 					<span
@@ -190,6 +186,7 @@ const Item = ({ item }) => {
 const AcpLayout = ({ children }) => {
 	const router = useRouter();
 	const currentUser = useSelector((state) => state.user.value);
+	const [open, setOpen] = useState(true);
 
 	if (!currentUser) return <LoadingOverlay />;
 
@@ -218,10 +215,29 @@ const AcpLayout = ({ children }) => {
 					</Link>
 				</div>
 				<div className={styles.main}>
-					<div className={styles.sidebar}>
-						{adminNavItems.map((e) => (
-							<Item key={e.path} item={e} />
-						))}
+					<div
+						className={clsx(styles.sidebar, {
+							[styles.open]: open,
+						})}
+					>
+						<div className={styles.items}>
+							{adminNavItems.map((e) => (
+								<Item key={e.path} item={e} />
+							))}
+						</div>
+
+						<div
+							className={styles.closeBtn}
+							onClick={() => setOpen(!open)}
+						>
+							<FontAwesomeIcon
+								icon={
+									open
+										? faAngleDoubleLeft
+										: faAngleDoubleRight
+								}
+							/>
+						</div>
 					</div>
 					<div className={styles.content}>{children}</div>
 				</div>

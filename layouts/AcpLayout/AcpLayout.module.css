@@ -35,14 +35,27 @@
 .main {
 	flex: 1;
 	display: flex;
+	overflow: hidden;
 }
 
 .sidebar {
-	width: 300px;
 	border-right: 1px solid #ddd;
 	height: 100%;
 	background: #eee;
 	user-select: none;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	width: 100px;
+	-webkit-transition: 0.4s ease;
+	-moz-transition: 0.4s ease;
+	-ms-transition: 0.4s ease;
+	-o-transition: 0.4s ease;
+	transition: 0.4s ease;
+}
+
+.sidebar.open {
+	width: 300px;
 }
 
 .item {
@@ -52,6 +65,8 @@
 	color: #333;
 	border-bottom: 1px solid #ddd;
 	background: #fefefe;
+	overflow: hidden;
+	height: 50px;
 }
 .item:hover {
 	color: var(--primary);
@@ -60,20 +75,33 @@
 .item .text {
 	margin-left: 10px;
 	font-weight: bold;
-	display: block;
+	display: none;
 	color: inherit;
 	flex: 1;
 	margin-top: -15px;
 	margin-bottom: -15px;
 	padding: 15px 0;
+	white-space: nowrap;
+}
+
+.item .left {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	color: inherit;
 }
 
 .item .btn {
 	margin: -15px -20px;
+	margin-left: 0;
 	padding: 15px 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.sidebar.open .item .text {
+	display: block;
 }
 
 .btn > * {
@@ -109,5 +137,22 @@
 .content {
 	flex: 1;
 	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.closeBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	cursor: pointer;
+}
+
+.closeBtn:hover {
+	background: #00000010;
+}
+
+.items {
+	flex: 1;
 	overflow-y: auto;
 }

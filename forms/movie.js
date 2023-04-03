@@ -19,6 +19,8 @@ import {
 	Select,
 	TextField,
 } from '@mui/material';
+import { DateField } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 import { Formik } from 'formik';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -108,7 +110,13 @@ const MovieForm = ({
 			enableReinitialize
 			onSubmit={onSubmit}
 		>
-			{({ values, errors, handleChange, handleSubmit }) => (
+			{({
+				values,
+				errors,
+				handleChange,
+				handleSubmit,
+				setFieldValue,
+			}) => (
 				<form onSubmit={handleSubmit}>
 					<h3 style={{ margin: '20px 0' }}>Thông tin cơ bản</h3>
 					<Row>
@@ -361,30 +369,34 @@ const MovieForm = ({
 								/>
 							</AspectRatio>
 
-							<TextField
+							<DateField
 								style={{ marginBottom: 20 }}
 								size="small"
 								fullWidth
-								value={values.showAt}
+								format="DD/MM/YYYY"
+								value={dayjs(values.showAt)}
 								placeholder="Khởi chiếu vào"
 								label="Khởi chiếu vào"
 								name="showAt"
-								type="date"
-								onChange={handleChange}
+								onChange={(value) =>
+									setFieldValue('showAt', value.$d)
+								}
 								error={!!errors.showAt}
 								helperText={errors.showAt}
 							/>
 
-							<TextField
+							<DateField
 								style={{ marginBottom: 20 }}
 								size="small"
 								fullWidth
-								value={values.showTo}
+								format="DD/MM/YYYY"
+								value={dayjs(values.showTo)}
 								placeholder="Đến ngày"
 								label="Đến ngày"
 								name="showTo"
-								type="date"
-								onChange={handleChange}
+								onChange={(value) =>
+									setFieldValue('showTo', value.$d)
+								}
 								error={!!errors.showTo}
 								helperText={errors.showTo}
 							/>

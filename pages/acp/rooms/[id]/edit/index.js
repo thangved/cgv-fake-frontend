@@ -1,16 +1,18 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
+import SeatPreview from '@/components/SeatPreview';
 import RoomForm from '@/forms/room';
 import AcpLayout from '@/layouts/AcpLayout';
 import RoomService from '@/services/room.service';
-import { faCouch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '@mui/material';
+import SeatRowService from '@/services/seatRow.service';
 import { Container } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
+import styles from './EditRoom.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 const EditRoom = () => {
 	const router = useRouter();
@@ -18,6 +20,11 @@ const EditRoom = () => {
 
 	const { data: room, isLoading } = useQuery(['room', router.query.id], () =>
 		RoomService.getById(router.query.id)
+	);
+
+	const { data: seatRows, isLoading: ld2 } = useQuery(
+		['seats', 'roomId', router.query.id],
+		() => SeatRowService.getAll({ roomId: router.query.id })
 	);
 
 	const handleUpdate = async (values) => {
@@ -43,14 +50,17 @@ const EditRoom = () => {
 					onSubmit={handleUpdate}
 				/>
 
-				<Link href={`/acp/rooms/${router.query.id}/seats`}>
-					<Button
-						startIcon={<FontAwesomeIcon icon={faCouch} />}
-						variant="outlined"
-						style={{ marginTop: 10 }}
-					>
-						Chỉnh sửa ghế
-					</Button>
+				<h3 style={{ margin: '20px 0' }}>Sơ đồ ghế</h3>
+
+				<Link
+					href={`/acp/rooms/${router.query.id}/seats`}
+					className={styles.seats}
+				>
+					{!ld2 && <SeatPreview rows={seatRows} />}
+
+					<div className={styles.overlay}>
+						<FontAwesomeIcon icon={faPen} />
+					</div>
 				</Link>
 			</Container>
 			{loading && <LoadingOverlay />}

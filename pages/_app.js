@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 config.autoAddCss = false;
 
@@ -50,9 +52,11 @@ const App = ({ Component, pageProps }) => {
 		<QueryClientProvider client={queryClient}>
 			<Provider store={store}>
 				<Authentication />
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
+				<LocalizationProvider dateAdapter={AdapterDayjs}>
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
+				</LocalizationProvider>
 				<Toaster position="top-center" />
 			</Provider>
 		</QueryClientProvider>

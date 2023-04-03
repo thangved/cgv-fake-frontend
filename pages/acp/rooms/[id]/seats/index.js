@@ -22,6 +22,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import styles from './EditSeat.module.css';
+import SeatPreview from '@/components/SeatPreview';
 
 const alphabet = 'ABCDEDFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -115,27 +116,6 @@ const EditModal = ({ open, payload, onClose, refetch }) => {
 	);
 };
 
-const SeatRow = ({ quantity, color, label }) => {
-	const element = [];
-
-	for (let i = 0; i < quantity; i++) {
-		element.push(
-			<div
-				key={i}
-				className={styles.seat}
-				style={{
-					'--seat-color': color,
-				}}
-			>
-				{label}
-				{i + 1}
-			</div>
-		);
-	}
-
-	return <div className={styles.row}>{element}</div>;
-};
-
 const EditSeats = () => {
 	const router = useRouter();
 
@@ -169,20 +149,7 @@ const EditSeats = () => {
 				<div className={styles.main}>
 					<TransformWrapper centerOnInit pinch={{ excluded: false }}>
 						<TransformComponent wrapperClass={styles.full}>
-							<div className={styles.room}>
-								<div className={styles.screen}>
-									Màn hình
-									<div className={styles.line}></div>
-								</div>
-
-								{seatRows.map((e) => (
-									<SeatRow
-										key={e.id}
-										{...e}
-										color={e.seattype.color}
-									/>
-								))}
-							</div>
+							<SeatPreview rows={seatRows} />
 						</TransformComponent>
 					</TransformWrapper>
 				</div>
@@ -252,8 +219,8 @@ const EditSeats = () => {
 			<CreateModal
 				payload={{
 					label: alphabet[seatRows.length],
-					quantity: 10,
-					seatTypeId: 0,
+					quantity: 15,
+					seatTypeId: 1,
 					roomId: router.query.id,
 				}}
 				open={openCreateModal}

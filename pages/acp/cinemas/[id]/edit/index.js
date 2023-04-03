@@ -3,7 +3,12 @@ import CinemaForm from '@/forms/cinema';
 import AcpLayout from '@/layouts/AcpLayout';
 import CinemaService from '@/services/cinema.service';
 import RoomService from '@/services/room.service';
-import { faAdd, faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+	faAdd,
+	faCalendar,
+	faPen,
+	faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
@@ -61,7 +66,7 @@ const EditCinema = () => {
 		}
 	};
 
-	if (isLoading || loading2) return <LoadingOverlay />;
+	if (isLoading || loading2 || !cinema) return <LoadingOverlay />;
 
 	return (
 		<>
@@ -90,6 +95,7 @@ const EditCinema = () => {
 
 				<DataGrid
 					autoHeight
+					density="compact"
 					columns={[
 						{
 							field: 'id',
@@ -99,6 +105,31 @@ const EditCinema = () => {
 							field: 'name',
 							headerName: 'Tên phòng',
 							flex: 1,
+						},
+						{
+							field: 'scheduler',
+							headerName: 'Lịch chiếu',
+							renderCell({ row }) {
+								return [
+									<GridActionsCellItem
+										key="scheduler"
+										icon={
+											<FontAwesomeIcon
+												icon={faCalendar}
+											/>
+										}
+										onClick={() =>
+											router.push({
+												pathname: '/acp/shows',
+												query: {
+													roomId: row.id,
+													cinemaId: cinema.id,
+												},
+											})
+										}
+									/>,
+								];
+							},
 						},
 						{
 							field: 'action',

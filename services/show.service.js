@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
 class ShowService {
-	static getAll() {
-		return request.get('shows');
+	static getAll(params = {}) {
+		return request.get('shows', { params });
 	}
 
 	static create(payload) {

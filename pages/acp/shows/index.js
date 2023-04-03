@@ -1,199 +1,162 @@
-/* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
+import schedulerTranslations from '@/configs/translations';
+import ShowInRoomForm from '@/forms/showInRoom';
 import AcpLayout from '@/layouts/AcpLayout';
-import BannerService from '@/services/banner.service';
-import {
-	faEarthAsia,
-	faFileCirclePlus,
-	faLock,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	Button,
-	Chip,
-	Container,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-} from '@mui/material';
-import {
-	DataGrid,
-	GridActionsCellItem,
-	GridToolbarContainer,
-	viVN,
-} from '@mui/x-data-grid';
-import dayjs from 'dayjs';
-import Link from 'next/link';
+import CinemaService from '@/services/cinema.service';
+import RoomService from '@/services/room.service';
+import ShowService from '@/services/show.service';
+import { Scheduler } from '@aldabil/react-scheduler';
+import { Box, Container, FormControl, InputLabel, Select } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { Col, Row } from 'react-grid-system';
+import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
+import { vi } from 'date-fns/locale';
 
-const Banners = () => {
-	const {
-		data: banners,
-		isLoading,
-		refetch,
-	} = useQuery(['banners'], BannerService.getAll);
-
-	const [deleteId, setDeleteId] = useState(null);
+const Shows = () => {
 	const router = useRouter();
+	const [cinemaId, setCinemaId] = useState(router.query.cinemaId || 1);
+	const [roomId, setRoomId] = useState(router.query.roomId || 0);
 
-	const handleDelete = async () => {
-		try {
-			await BannerService.delete(deleteId);
-		} catch (error) {
-			alert(error.response.message);
-		} finally {
-			setDeleteId(null);
-			refetch();
-		}
+	const { data: cinemas } = useQuery(['cinemas'], CinemaService.getAll);
+
+	const { data: rooms } = useQuery(
+		['rooms', 'cinemaId', cinemaId],
+		() => RoomService.getAll({ cinemaId }),
+		{ initialData: [] }
+	);
+
+	const { data: shows, refetch } = useQuery(
+		['shows', 'cinemaId', cinemaId, 'roomId', roomId],
+		() => ShowService.getAll({ roomId, cinemaId }),
+		{ initialData: [] }
+	);
+
+	const handleCreate = async (values) => {
+		await ShowService.create(values);
 	};
 
-	if (isLoading) return <LoadingOverlay />;
+	if (!cinemas || !rooms) return <LoadingOverlay />;
 
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Banner</h2>
-				<DataGrid
-					rowHeight={300}
-					autoHeight
-					slots={{
-						toolbar: () => (
-							<GridToolbarContainer>
-								<Link href="/acp/banners/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
-										Thêm
-									</Button>
-								</Link>
-							</GridToolbarContainer>
-						),
+				<h2 style={{ margin: '20px 0' }}>Lịch chiếu</h2>
+
+				<Row style={{ marginBottom: 20 }}>
+					<Col xs={12} md={6}>
+						<FormControl fullWidth size="small">
+							<InputLabel>Rạp</InputLabel>
+							<Select
+								label="Rạp"
+								native
+								value={cinemaId}
+								onChange={(event) => {
+									setCinemaId(event.target.value);
+									setRoomId(0);
+								}}
+							>
+								{cinemas.map((e) => (
+									<option key={e.id} value={e.id}>
+										{e.name}
+									</option>
+								))}
+							</Select>
+						</FormControl>
+					</Col>
+					<Col xs={12} md={6}>
+						<FormControl fullWidth size="small">
+							<InputLabel>Phòng chiếu</InputLabel>
+							<Select
+								label="Phòng chiếu"
+								native
+								value={roomId}
+								onChange={(event) =>
+									setRoomId(event.target.value)
+								}
+							>
+								<option value="0">Tất cả</option>
+								{rooms.map((e) => (
+									<option key={e.id} value={e.id}>
+										{e.name}
+									</option>
+								))}
+							</Select>
+						</FormControl>
+					</Col>
+				</Row>
+
+				<Scheduler
+					key={`${cinemaId}-${roomId}-${shows.length}`}
+					view="week"
+					events={shows.map((e) => ({
+						event_id: e.id,
+						title: e.movie.title,
+						start: new Date(e.startAt),
+						end: new Date(e.endAt),
+					}))}
+					locale={vi}
+					editable={false}
+					translations={schedulerTranslations}
+					hourFormat="24"
+					day={{
+						startHour: 0,
+						endHour: 24,
+						step: 60,
+						navigation: true,
 					}}
-					columns={[
-						{
-							field: 'id',
-							headerName: 'Mã',
-						},
-						{
-							field: 'image',
-							headerName: 'Ảnh',
-							flex: 1,
-							renderCell({ value }) {
-								return (
-									<img
-										src={value}
-										alt="Banner"
-										style={{
-											maxHeight: 300,
-											maxWidth: '100%',
-										}}
-									/>
-								);
-							},
-						},
-						{
-							field: 'url',
-							headerName: 'Đường dẫn',
-							flex: 1,
-						},
-						{
-							field: 'visible',
-							headerName: 'Hiển thị',
-							flex: 1,
-							renderCell({ value }) {
-								return (
-									<Chip
-										icon={
-											<FontAwesomeIcon
-												icon={
-													value ? faEarthAsia : faLock
-												}
-											/>
+					week={{
+						startHour: 0,
+						endHour: 24,
+						navigation: true,
+					}}
+					customEditor={(scheduler) => {
+						if (!roomId) return scheduler.close();
+						return (
+							<Box padding={3}>
+								<h2 style={{ marginBottom: 20 }}>
+									Thêm suất chiếu
+								</h2>
+								<ShowInRoomForm
+									initialValues={{
+										movieId: 0,
+										roomId: roomId,
+										languageId: 0,
+										startAt: scheduler.state.start.value,
+										endAt: scheduler.state.end.value,
+									}}
+									submitText="Tạo"
+									onSubmit={async (values) => {
+										try {
+											await handleCreate(values);
+											scheduler.close();
+										} catch (error) {
+											toast.error(error);
+										} finally {
+											refetch();
 										}
-										label={value ? 'Hiển thị' : 'Ẩn'}
-										color={value ? 'success' : 'error'}
-									/>
-								);
-							},
-						},
-						{
-							field: 'createdAt',
-							headerName: 'Tạo vào',
-							flex: 1,
-							renderCell({ value }) {
-								return dayjs(value).format('hh:mm, DD/MM/YYYY');
-							},
-						},
-						{
-							field: 'updatedAt',
-							headerName: 'Cập nhật lần cuối',
-							flex: 1,
-							renderCell({ value }) {
-								return dayjs(value).format('hh:mm, DD/MM/YYYY');
-							},
-						},
-						{
-							field: 'action',
-							type: 'actions',
-							headerName: 'Hành động',
-							getActions({ row }) {
-								return [
-									<GridActionsCellItem
-										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
-										label="Edit"
-										onClick={() => {
-											router.push(
-												`/acp/banners/${row.id}/edit`
-											);
-										}}
-									/>,
-									<GridActionsCellItem
-										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
-										label="Edit"
-										onClick={() => {
-											setDeleteId(row.id);
-										}}
-									/>,
-								];
-							},
-						},
-					]}
-					rows={banners}
-					loading={isLoading}
-					localeText={
-						viVN.components.MuiDataGrid.defaultProps.localeText
-					}
-					density="compact"
+									}}
+									onCancel={scheduler.close}
+								/>
+							</Box>
+						);
+					}}
+					onDelete={async (deleteId) => {
+						try {
+							await ShowService.delete(deleteId);
+						} catch (error) {
+							toast.error(error);
+						} finally {
+							refetch();
+						}
+					}}
 				/>
 			</Container>
-
-			<Dialog open={!!deleteId}>
-				<DialogTitle>Xóa banner</DialogTitle>
-				<DialogContent>Bạn có muốn xóa banner này?</DialogContent>
-				<DialogActions>
-					<Button variant="contained" onClick={handleDelete}>
-						Xóa
-					</Button>
-					<Button onClick={() => setDeleteId(null)}>Hủy</Button>
-				</DialogActions>
-			</Dialog>
 		</>
 	);
 };
 
-Banners.layout = AcpLayout;
+Shows.layout = AcpLayout;
 
-export default Banners;
+export default Shows;

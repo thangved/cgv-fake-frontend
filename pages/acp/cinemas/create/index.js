@@ -2,7 +2,7 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import CinemaForm from '@/forms/cinema';
 import AcpLayout from '@/layouts/AcpLayout';
 import CinemaService from '@/services/cinema.service';
-import { Container, Divider } from '@mui/material';
+import { Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';

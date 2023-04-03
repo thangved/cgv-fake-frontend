@@ -1,19 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import BannerService from '@/services/banner.service';
 import LanguageService from '@/services/language.service';
 import {
-	faEarthAsia,
 	faFileCirclePlus,
-	faLock,
 	faPen,
 	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Button,
-	Chip,
 	Container,
 	Dialog,
 	DialogActions,

@@ -3,7 +3,7 @@ import GenderService from '@/services/gender.service';
 import { setValue } from '@/store/userSlice';
 import token from '@/utils/token';
 import { Formik } from 'formik';
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';

@@ -22,13 +22,6 @@ import ReactPlayer from 'react-player';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import styles from './Movie.module.css';
-import {
-	DatePicker,
-	DesktopDatePicker,
-	DateCalendar,
-	MobileDatePicker,
-} from '@mui/x-date-pickers';
-import { FormControl, TextField } from '@mui/material';
 
 export async function getServerSideProps(context) {
 	const movieDetails = await MovieService.getByIdOrSlug(context.query.slug);

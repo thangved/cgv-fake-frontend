@@ -1,5 +1,4 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
-import CategoryForm from '@/forms/category';
 import SeatTypeForm from '@/forms/seatType';
 import AcpLayout from '@/layouts/AcpLayout';
 import SeatTypeService from '@/services/seatType.service';

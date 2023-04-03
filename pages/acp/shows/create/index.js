@@ -4,24 +4,19 @@ import AcpLayout from '@/layouts/AcpLayout';
 import CinemaService from '@/services/cinema.service';
 import MovieService from '@/services/movie.service';
 import { Container } from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useQuery } from 'react-query';
+import CreateInCinema from '../../../../components/CreateInCinema';
 import styles from './CreateShow.module.css';
-import dayjs from 'dayjs';
-import CreateInCinema from '../_components/CreateInCinema';
 
 const CreateShow = () => {
 	const router = useRouter();
-	const [loading, setLoading] = useState(false);
 
-	const {
-		data: movieDetails,
-		isLoading,
-		isError,
-	} = useQuery(['movie', router.query.movieId], () =>
-		MovieService.getByIdOrSlug(router.query.movieId)
+	const { data: movieDetails, isLoading } = useQuery(
+		['movie', router.query.movieId],
+		() => MovieService.getByIdOrSlug(router.query.movieId)
 	);
 
 	const { data: cinemas, isLoading: ld2 } = useQuery(
@@ -82,7 +77,6 @@ const CreateShow = () => {
 					</Col>
 				</Row>
 			</Container>
-			{loading && <LoadingOverlay />}
 		</>
 	);
 };

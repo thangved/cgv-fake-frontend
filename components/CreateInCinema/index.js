@@ -1,6 +1,8 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import ShowInMovieForm from '@/forms/showInMovie';
 import ShowService from '@/services/show.service';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	Box,
 	Button,
@@ -9,14 +11,12 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import styles from './CreateInCinema.module.css';
 import { DataGrid, GridActionsCellItem, viVN } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from 'react-query';
+import styles from './CreateInCinema.module.css';
 
 const CreateInCinema = ({ movieDetails, cinemaDetails }) => {
 	const [adding, setAdding] = useState(false);

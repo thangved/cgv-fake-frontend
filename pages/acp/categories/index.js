@@ -3,11 +3,10 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import CategoryService from '@/services/category.service';
 import {
-	faFileCirclePlus,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddCircleOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Container,
@@ -61,13 +60,7 @@ const Categories = () => {
 						toolbar: () => (
 							<GridToolbarContainer>
 								<Link href="/acp/categories/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
+									<Button startIcon={<AddCircleOutlined />}>
 										Thêm
 									</Button>
 								</Link>
@@ -110,7 +103,7 @@ const Categories = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -120,9 +113,7 @@ const Categories = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

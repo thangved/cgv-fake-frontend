@@ -3,12 +3,11 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import MovieService from '@/services/movie.service';
 import {
-	faFileCirclePlus,
-	faPen,
-	faTicket,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddOutlined,
+	ConfirmationNumberOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Container,
@@ -64,13 +63,7 @@ const Movies = () => {
 						toolbar: () => (
 							<GridToolbarContainer>
 								<Link href="/acp/movies/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
+									<Button startIcon={<AddOutlined />}>
 										Thêm
 									</Button>
 								</Link>
@@ -145,7 +138,7 @@ const Movies = () => {
 										}}
 									>
 										<IconButton>
-											<FontAwesomeIcon icon={faTicket} />
+											<ConfirmationNumberOutlined />
 										</IconButton>
 									</Link>
 								);
@@ -159,7 +152,7 @@ const Movies = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -169,9 +162,7 @@ const Movies = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

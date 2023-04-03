@@ -1,5 +1,7 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
+import { uploadFile } from '@/firebase';
 import GenderService from '@/services/gender.service';
+import { FileUploadOutlined } from '@mui/icons-material';
 import {
 	Avatar,
 	Button,
@@ -62,7 +64,13 @@ const AccountForm = ({
 			validationSchema={Yup.object().shape(validationSchema)}
 			onSubmit={onSubmit}
 		>
-			{({ values, errors, handleChange, handleSubmit }) => (
+			{({
+				values,
+				errors,
+				handleChange,
+				setFieldValue,
+				handleSubmit,
+			}) => (
 				<form onSubmit={handleSubmit}>
 					<TextField
 						style={{ marginBottom: 20 }}
@@ -91,20 +99,37 @@ const AccountForm = ({
 					/>
 
 					<Row style={{ marginBottom: 20 }}>
-						<Col style={{ flex: 1 }}>
-							<TextField
-								size="small"
+						<Col xs={12} md={6}>
+							<Button
+								startIcon={<FileUploadOutlined />}
 								fullWidth
-								placeholder="Link avatar"
-								label="Link avatar"
-								name="avatar"
-								onChange={handleChange}
-								error={!!errors.avatar}
-								helperText={errors.avatar}
-								value={values.avatar}
+								variant="outlined"
+								component="label"
+							>
+								Tải ảnh lên
+								<input
+									hidden
+									type="file"
+									accept="image/*"
+									onChange={async ({ target: { files } }) => {
+										const file = files[0];
+
+										if (!file) return;
+
+										const res = await uploadFile(file);
+
+										setFieldValue('avatar', res);
+									}}
+								/>
+							</Button>
+						</Col>
+
+						<Col xs={12} md={6}>
+							<Avatar
+								src={values.avatar}
+								sx={{ width: 100, height: 100 }}
 							/>
 						</Col>
-						<Avatar src={values.avatar} />
 					</Row>
 
 					<FormControl fullWidth>

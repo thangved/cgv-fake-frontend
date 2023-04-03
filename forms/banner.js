@@ -1,13 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { uploadFile } from '@/firebase';
-import {
-	Button,
-	Checkbox,
-	FormControlLabel,
-	Switch,
-	TextField,
-} from '@mui/material';
+import { FileUploadOutlined } from '@mui/icons-material';
+import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { Formik } from 'formik';
+import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 
@@ -28,62 +24,54 @@ const BannerForm = ({
 		>
 			{({ values, errors, handleChange, handleSubmit }) => (
 				<form onSubmit={handleSubmit}>
-					<TextField
+					<Button
+						component="label"
+						fullWidth
+						variant="outlined"
 						style={{ marginBottom: 20 }}
-						autoFocus
-						type="file"
-						onChange={async (event) => {
-							try {
-								const file = event.target.files[0];
+						startIcon={<FileUploadOutlined />}
+					>
+						Tải ảnh lên
+						<input
+							hidden
+							type="file"
+							onChange={async (event) => {
+								try {
+									const file = event.target.files[0];
 
-								if (!file) {
-									return;
+									if (!file) {
+										return;
+									}
+
+									const imageURL = await uploadFile(file);
+
+									handleChange({
+										target: {
+											name: 'image',
+											value: imageURL,
+										},
+									});
+								} catch (error) {
+									toast.error(error.toString());
 								}
-
-								const imageURL = await uploadFile(file);
-
-								handleChange({
-									target: {
-										name: 'image',
-										value: imageURL,
-									},
-								});
-							} catch (error) {
-								toast.error(error.toString());
-							}
-						}}
-						inputProps={{ accept: 'image/*' }}
-						error={!!errors.name}
-						helperText={errors.name}
-						fullWidth
-						size="small"
-					/>
-
-					<TextField
-						style={{ marginBottom: 20 }}
-						autoFocus
-						disabled
-						placeholder="Ảnh"
-						value={values.image}
-						name="image"
-						onChange={handleChange}
-						error={!!errors.image}
-						helperText={errors.image}
-						fullWidth
-						size="small"
-					/>
-
-					{values.image && (
-						<img
-							src={values.image}
-							style={{
-								maxHeight: 300,
-								maxWidth: '100%',
-								marginBottom: 20,
 							}}
-							alt="Banner"
+							accept="image/*"
 						/>
-					)}
+					</Button>
+
+					<Link
+						href={values.url}
+						style={{
+							width: '100%',
+							height: 400,
+							backgroundImage: `url(${values.image})`,
+							display: 'block',
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							marginBottom: 20,
+						}}
+						target="_blank"
+					></Link>
 
 					<TextField
 						style={{ marginBottom: 20 }}

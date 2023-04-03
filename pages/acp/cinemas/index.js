@@ -3,11 +3,10 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import CinemaService from '@/services/cinema.service';
 import {
-	faFileCirclePlus,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddCircleOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Container,
@@ -61,13 +60,7 @@ const Cinemas = () => {
 						toolbar: () => (
 							<GridToolbarContainer>
 								<Link href="/acp/cinemas/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
+									<Button startIcon={<AddCircleOutlined />}>
 										Thêm
 									</Button>
 								</Link>
@@ -121,7 +114,7 @@ const Cinemas = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -131,9 +124,7 @@ const Cinemas = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

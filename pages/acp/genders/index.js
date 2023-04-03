@@ -2,11 +2,10 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import GenderService from '@/services/gender.service';
 import {
-	faFileCirclePlus,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddCircleOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Container,
@@ -60,13 +59,7 @@ const Genders = () => {
 						toolbar: () => (
 							<GridToolbarContainer>
 								<Link href="/acp/genders/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
+									<Button startIcon={<AddCircleOutlined />}>
 										Thêm
 									</Button>
 								</Link>
@@ -107,7 +100,7 @@ const Genders = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -117,9 +110,7 @@ const Genders = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

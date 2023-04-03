@@ -2,11 +2,10 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import AccountService from '@/services/account.servive';
 import {
-	faFileCirclePlus,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddCircleOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Avatar,
 	Button,
@@ -126,7 +125,7 @@ const Accounts = () => {
 							return [
 								<GridActionsCellItem
 									key="edit"
-									icon={<FontAwesomeIcon icon={faPen} />}
+									icon={<EditOutlined />}
 									label="Edit"
 									onClick={() => {
 										router.push(
@@ -136,7 +135,7 @@ const Accounts = () => {
 								/>,
 								<GridActionsCellItem
 									key="delete"
-									icon={<FontAwesomeIcon icon={faTimes} />}
+									icon={<DeleteOutlined />}
 									label="Edit"
 									onClick={() => {
 										setDeleteId(row.id);
@@ -153,13 +152,7 @@ const Accounts = () => {
 					toolbar: () => (
 						<GridToolbarContainer>
 							<Link href="/acp/accounts/create">
-								<Button
-									startIcon={
-										<FontAwesomeIcon
-											icon={faFileCirclePlus}
-										/>
-									}
-								>
+								<Button startIcon={<AddCircleOutlined />}>
 									Thêm
 								</Button>
 							</Link>

@@ -1,16 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import LoadingOverlay from '@/components/LoadingOverlay';
-import ProvinceService from '@/services/province.service';
-import {
-	Button,
-	FormControl,
-	FormHelperText,
-	InputLabel,
-	Select,
-	TextField,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { Formik } from 'formik';
-import { useQuery } from 'react-query';
 import * as Yup from 'yup';
 
 const LanguageForm = ({
@@ -18,13 +8,6 @@ const LanguageForm = ({
 	submitText = 'Gửi',
 	onSubmit,
 }) => {
-	const { data: provinces, isLoading } = useQuery(
-		['provinces'],
-		ProvinceService.getAll
-	);
-
-	if (isLoading) return <LoadingOverlay />;
-
 	return (
 		<Formik
 			initialValues={initialValues}

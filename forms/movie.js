@@ -3,13 +3,7 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import { uploadFile } from '@/firebase';
 import CategoryService from '@/services/category.service';
 import CountryService from '@/services/country.service';
-import {
-	faBars,
-	faFileUpload,
-	faImage,
-	faT,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FileUploadOutlined } from '@mui/icons-material';
 import {
 	Button,
 	FormControl,
@@ -23,7 +17,6 @@ import { DateField } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { Formik } from 'formik';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Row } from 'react-grid-system';
 import ReactPlayer from 'react-player';
@@ -31,21 +24,6 @@ import { useQuery } from 'react-query';
 import * as Yup from 'yup';
 
 const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
-
-const tabs = [
-	{
-		label: 'Thông tin cơ bản',
-		icon: faT,
-	},
-	{
-		label: 'Media',
-		icon: faImage,
-	},
-	{
-		label: 'Nội dung phim',
-		icon: faBars,
-	},
-];
 
 const MovieForm = ({
 	initialValues = {
@@ -66,7 +44,6 @@ const MovieForm = ({
 	submitText = 'Gửi',
 	onSubmit,
 }) => {
-	const [tabIndex, setTabIndex] = useState(0);
 	const { data: countries, isLoading: loadingCountries } = useQuery(
 		['countries'],
 		CountryService.getAll
@@ -248,9 +225,7 @@ const MovieForm = ({
 								color={errors.verPoster ? 'error' : 'primary'}
 								fullWidth
 								variant="outlined"
-								startIcon={
-									<FontAwesomeIcon icon={faFileUpload} />
-								}
+								startIcon={<FileUploadOutlined />}
 								component="label"
 							>
 								Poster dọc
@@ -301,9 +276,7 @@ const MovieForm = ({
 								fullWidth
 								color={errors.horPoster ? 'error' : 'primary'}
 								variant="outlined"
-								startIcon={
-									<FontAwesomeIcon icon={faFileUpload} />
-								}
+								startIcon={<FileUploadOutlined />}
 								component="label"
 							>
 								Poster ngang

@@ -2,8 +2,7 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import RoomService from '@/services/room.service';
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DeleteOutlined, EditOutlined } from '@mui/icons-material';
 import {
 	Button,
 	Container,
@@ -88,7 +87,7 @@ const Rooms = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -98,9 +97,7 @@ const Rooms = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

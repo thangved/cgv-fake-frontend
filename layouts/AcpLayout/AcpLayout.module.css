@@ -98,13 +98,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-.sidebar.open .item .text {
-	display: block;
-}
-
-.btn > * {
+	cursor: pointer;
 	-webkit-transition: 0.4s ease;
 	-moz-transition: 0.4s ease;
 	-ms-transition: 0.4s ease;
@@ -112,7 +106,11 @@
 	transition: 0.4s ease;
 }
 
-.btn.open > * {
+.sidebar.open .item .text {
+	display: block;
+}
+
+.item .btn.open {
 	-webkit-transform: rotate(180deg);
 	-moz-transform: rotate(180deg);
 	-ms-transform: rotate(180deg);

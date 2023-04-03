@@ -4,8 +4,11 @@ import SeatRowForm from '@/forms/seatRow';
 import GetTicketLayout from '@/layouts/GetTicketLayout';
 import RoomService from '@/services/room.service';
 import SeatRowService from '@/services/seatRow.service';
-import { faPen, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	CancelOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Dialog,
@@ -98,14 +101,14 @@ const EditModal = ({ open, payload, onClose, refetch }) => {
 					<Menu anchorEl={anchorEl} open={!!anchorEl}>
 						<MenuItem onClick={handleDelete}>
 							<ListItemIcon>
-								<FontAwesomeIcon icon={faTrash} />
+								<DeleteOutlined />
 							</ListItemIcon>
 							<ListItemText>Xóa hàng ghế</ListItemText>
 						</MenuItem>
 
 						<MenuItem onClick={() => setAnchorEl(null)}>
 							<ListItemIcon>
-								<FontAwesomeIcon icon={faTimes} />
+								<CancelOutlined />
 							</ListItemIcon>
 							<ListItemText>Hủy</ListItemText>
 						</MenuItem>
@@ -197,9 +200,7 @@ const EditSeats = () => {
 									return [
 										<GridActionsCellItem
 											key="edit"
-											icon={
-												<FontAwesomeIcon icon={faPen} />
-											}
+											icon={<EditOutlined />}
 											label="Edit"
 											onClick={() => {
 												setUpdatePayload(row);

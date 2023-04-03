@@ -4,6 +4,7 @@ import RoomForm from '@/forms/room';
 import AcpLayout from '@/layouts/AcpLayout';
 import RoomService from '@/services/room.service';
 import SeatRowService from '@/services/seatRow.service';
+import { EditOutlined } from '@mui/icons-material';
 import { Container } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -11,8 +12,6 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import styles from './EditRoom.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 const EditRoom = () => {
 	const router = useRouter();
@@ -59,7 +58,7 @@ const EditRoom = () => {
 					{!ld2 && <SeatPreview rows={seatRows} />}
 
 					<div className={styles.overlay}>
-						<FontAwesomeIcon icon={faPen} />
+						<EditOutlined />
 					</div>
 				</Link>
 			</Container>

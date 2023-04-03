@@ -4,12 +4,11 @@ import AcpLayout from '@/layouts/AcpLayout';
 import CinemaService from '@/services/cinema.service';
 import RoomService from '@/services/room.service';
 import {
-	faAdd,
-	faCalendar,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddCircleOutlined,
+	CalendarMonthOutlined,
+	DeleteOutlined,
+	EditOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Dialog,
@@ -88,7 +87,7 @@ const EditCinema = () => {
 						},
 					}}
 				>
-					<Button startIcon={<FontAwesomeIcon icon={faAdd} />}>
+					<Button startIcon={<AddCircleOutlined />}>
 						Thêm phòng chiếu
 					</Button>
 				</Link>
@@ -113,11 +112,7 @@ const EditCinema = () => {
 								return [
 									<GridActionsCellItem
 										key="scheduler"
-										icon={
-											<FontAwesomeIcon
-												icon={faCalendar}
-											/>
-										}
+										icon={<CalendarMonthOutlined />}
 										onClick={() =>
 											router.push({
 												pathname: '/acp/shows',
@@ -139,7 +134,7 @@ const EditCinema = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -149,9 +144,7 @@ const EditCinema = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

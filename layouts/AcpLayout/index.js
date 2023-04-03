@@ -1,24 +1,21 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import {
-	faAngleDoubleLeft,
-	faAngleDoubleRight,
-	faAngleDown,
-	faAngleLeft,
-	faBars,
-	faCouch,
-	faEarthAmerica,
-	faEarthAmericas,
-	faEarthAsia,
-	faFilm,
-	faHome,
-	faHouse,
-	faLocation,
-	faPager,
-	faTicket,
-	faUsers,
-	faVenusMars,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AccountCircleOutlined,
+	ArrowBackIosNewOutlined,
+	ArrowDropDownOutlined,
+	CalendarMonthOutlined,
+	ChairOutlined,
+	HomeOutlined,
+	KeyboardDoubleArrowLeftOutlined,
+	KeyboardDoubleArrowRightOutlined,
+	LanguageOutlined,
+	ListAltOutlined,
+	LocationCityOutlined,
+	MovieOutlined,
+	PresentToAllOutlined,
+	PublicOutlined,
+	TransgenderOutlined,
+} from '@mui/icons-material';
 import clsx from 'clsx';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -31,7 +28,7 @@ export const adminNavItems = [
 	{
 		title: 'Banner',
 		path: 'banners',
-		icon: <FontAwesomeIcon icon={faPager} />,
+		icon: <PresentToAllOutlined />,
 		children: [
 			{
 				title: 'Thêm',
@@ -42,7 +39,7 @@ export const adminNavItems = [
 	{
 		title: 'Giới tính',
 		path: 'genders',
-		icon: <FontAwesomeIcon icon={faVenusMars} />,
+		icon: <TransgenderOutlined />,
 		children: [
 			{
 				title: 'Thêm',
@@ -53,7 +50,7 @@ export const adminNavItems = [
 	{
 		title: 'Tài khoản',
 		path: 'accounts',
-		icon: <FontAwesomeIcon icon={faUsers} />,
+		icon: <AccountCircleOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -64,7 +61,7 @@ export const adminNavItems = [
 	{
 		title: 'Tỉnh thành',
 		path: 'provinces',
-		icon: <FontAwesomeIcon icon={faLocation} />,
+		icon: <LocationCityOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -75,7 +72,7 @@ export const adminNavItems = [
 	{
 		title: 'Rạp',
 		path: 'cinemas',
-		icon: <FontAwesomeIcon icon={faHouse} />,
+		icon: <HomeOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -86,7 +83,7 @@ export const adminNavItems = [
 	{
 		title: 'Loại ghế',
 		path: 'seat-types',
-		icon: <FontAwesomeIcon icon={faCouch} />,
+		icon: <ChairOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -97,7 +94,7 @@ export const adminNavItems = [
 	{
 		title: 'Thể loại phim',
 		path: 'categories',
-		icon: <FontAwesomeIcon icon={faBars} />,
+		icon: <ListAltOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -108,7 +105,7 @@ export const adminNavItems = [
 	{
 		title: 'Quốc gia',
 		path: 'countries',
-		icon: <FontAwesomeIcon icon={faEarthAsia} />,
+		icon: <PublicOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -119,7 +116,7 @@ export const adminNavItems = [
 	{
 		title: 'Ngôn ngữ',
 		path: 'languages',
-		icon: <FontAwesomeIcon icon={faEarthAmericas} />,
+		icon: <LanguageOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -130,7 +127,7 @@ export const adminNavItems = [
 	{
 		title: 'Phim',
 		path: 'movies',
-		icon: <FontAwesomeIcon icon={faFilm} />,
+		icon: <MovieOutlined />,
 		children: [
 			{
 				path: 'create',
@@ -139,9 +136,9 @@ export const adminNavItems = [
 		],
 	},
 	{
-		title: 'Suất chiếu',
+		title: 'Lịch chiếu',
 		path: 'shows',
-		icon: <FontAwesomeIcon icon={faTicket} />,
+		icon: <CalendarMonthOutlined />,
 	},
 ];
 
@@ -162,7 +159,7 @@ const Item = ({ item }) => {
 							[styles.open]: open,
 						})}
 					>
-						<FontAwesomeIcon icon={faAngleDown} />
+						<ArrowDropDownOutlined />
 					</span>
 				)}
 			</div>
@@ -200,14 +197,14 @@ const AcpLayout = ({ children }) => {
 			<div className={styles.wrapper}>
 				<div className={styles.header}>
 					<div className={styles.back} onClick={() => router.back()}>
-						<FontAwesomeIcon icon={faAngleLeft} />
+						<ArrowBackIosNewOutlined />
 					</div>
 
 					<div
 						className={styles.back}
 						onClick={() => router.push('/')}
 					>
-						<FontAwesomeIcon icon={faHome} />
+						<HomeOutlined />
 					</div>
 
 					<Link href="/acp">
@@ -230,13 +227,11 @@ const AcpLayout = ({ children }) => {
 							className={styles.closeBtn}
 							onClick={() => setOpen(!open)}
 						>
-							<FontAwesomeIcon
-								icon={
-									open
-										? faAngleDoubleLeft
-										: faAngleDoubleRight
-								}
-							/>
+							{open ? (
+								<KeyboardDoubleArrowLeftOutlined />
+							) : (
+								<KeyboardDoubleArrowRightOutlined />
+							)}
 						</div>
 					</div>
 					<div className={styles.content}>{children}</div>

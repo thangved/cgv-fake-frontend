@@ -3,13 +3,12 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
 import BannerService from '@/services/banner.service';
 import {
-	faEarthAsia,
-	faFileCirclePlus,
-	faLock,
-	faPen,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+	AddCircleOutlined,
+	DeleteOutlined,
+	EditOutlined,
+	PublicOffOutlined,
+	PublicOutlined,
+} from '@mui/icons-material';
 import {
 	Button,
 	Chip,
@@ -65,13 +64,7 @@ const Banners = () => {
 						toolbar: () => (
 							<GridToolbarContainer>
 								<Link href="/acp/banners/create">
-									<Button
-										startIcon={
-											<FontAwesomeIcon
-												icon={faFileCirclePlus}
-											/>
-										}
-									>
+									<Button startIcon={<AddCircleOutlined />}>
 										Thêm
 									</Button>
 								</Link>
@@ -113,11 +106,11 @@ const Banners = () => {
 								return (
 									<Chip
 										icon={
-											<FontAwesomeIcon
-												icon={
-													value ? faEarthAsia : faLock
-												}
-											/>
+											value ? (
+												<PublicOutlined />
+											) : (
+												<PublicOffOutlined />
+											)
 										}
 										label={value ? 'Hiển thị' : 'Ẩn'}
 										color={value ? 'success' : 'error'}
@@ -149,7 +142,7 @@ const Banners = () => {
 								return [
 									<GridActionsCellItem
 										key="edit"
-										icon={<FontAwesomeIcon icon={faPen} />}
+										icon={<EditOutlined />}
 										label="Edit"
 										onClick={() => {
 											router.push(
@@ -159,9 +152,7 @@ const Banners = () => {
 									/>,
 									<GridActionsCellItem
 										key="delete"
-										icon={
-											<FontAwesomeIcon icon={faTimes} />
-										}
+										icon={<DeleteOutlined />}
 										label="Edit"
 										onClick={() => {
 											setDeleteId(row.id);

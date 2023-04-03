@@ -102,13 +102,13 @@ const Shows = () => {
 					hourFormat="24"
 					day={{
 						startHour: 0,
-						endHour: 24,
+						endHour: 23,
 						step: 60,
 						navigation: true,
 					}}
 					week={{
 						startHour: 0,
-						endHour: 24,
+						endHour: 23,
 						navigation: true,
 					}}
 					customEditor={(scheduler) => {

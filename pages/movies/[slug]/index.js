@@ -1,41 +1,74 @@
 import Button from '@/components/Button';
 import CinemaByMovie from '@/components/CinemaByMovie';
 import Input from '@/components/Input';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import Modal from '@/components/Modal';
 import MovieCard from '@/components/MovieCard';
 import Select from '@/components/Select';
-import cinemaShows from '@/mock/cinemaShows';
+import MovieForm from '@/forms/movie';
+import CinemaService from '@/services/cinema.service';
 import MovieService from '@/services/movie.service';
+import ProvinceService from '@/services/province.service';
+import ShowService from '@/services/show.service';
 import { faCirclePlay, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import dayjs from 'dayjs';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Container, Row } from 'react-grid-system';
 import ReactPlayer from 'react-player';
-import styles from './Movie.module.css';
-import MovieForm from '@/forms/movie';
+import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import styles from './Movie.module.css';
+import {
+	DatePicker,
+	DesktopDatePicker,
+	DateCalendar,
+	MobileDatePicker,
+} from '@mui/x-date-pickers';
+import { FormControl, TextField } from '@mui/material';
 
 export async function getServerSideProps(context) {
 	const movieDetails = await MovieService.getByIdOrSlug(context.query.slug);
 	const showNows = await MovieService.getAll({ show: 'now' });
+	const provinces = await ProvinceService.getAll();
 
 	return {
 		props: {
 			movieDetails,
-			cinemaShows,
 			showNows,
+			provinces,
 		},
 	};
 }
 
-const Movie = ({ movieDetails, cinemaShows, showNows }) => {
+const Movie = ({ movieDetails, showNows, provinces }) => {
 	const [showTrailer, setShowTrailer] = useState(false);
 	const [editing, setEditing] = useState(false);
+	const [filter, setFilter] = useState({
+		provinceId: 0,
+		date: dayjs(new Date()).format('YYYY-MM-DD'),
+		cinemaId: 0,
+	});
+
+	const { data: cinemas } = useQuery(
+		['cinemas', 'provinceId', filter.provinceId],
+		() => CinemaService.getAll({ provinceId: filter.provinceId }),
+		{ initialData: [] }
+	);
+
+	const { data: shows } = useQuery(
+		['shows', 'movieId', movieDetails.id, 'filter', filter],
+		() =>
+			ShowService.getAll({
+				movieId: movieDetails.id,
+				group: true,
+				...filter,
+			}),
+		{ initialData: [] }
+	);
 
 	const currentUser = useSelector((state) => state.user.value);
 
@@ -47,6 +80,10 @@ const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 			setEditing(false);
 		}
 	};
+
+	useEffect(() => {
+		setFilter((prev) => ({ ...prev, cinemaId: 0 }));
+	}, [filter.provinceId]);
 
 	if (!currentUser) return <LoadingOverlay />;
 
@@ -81,7 +118,7 @@ const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 											position: 'absolute',
 											right: 0,
 											top: 0,
-											zIndex: 100,
+											zIndex: 10,
 										}}
 										onClick={() => setEditing(!editing)}
 									>
@@ -210,30 +247,68 @@ const Movie = ({ movieDetails, cinemaShows, showNows }) => {
 
 					<Row>
 						<Col xs={12} md={4}>
-							<Select>
-								<option value="all">Cả nước</option>
-								<option value="hcm">
-									Thành phố Hồ Chí Minh
-								</option>
-								<option value="ct">Thành phố Cần Thơ</option>
+							<Select
+								value={filter.provinceId}
+								onChange={(event) =>
+									setFilter((prev) => ({
+										...prev,
+										provinceId: event.target.value,
+									}))
+								}
+							>
+								<option value="0">Cả nước</option>
+								{provinces.map((e) => (
+									<option key={e.id} value={e.id}>
+										{e.name}
+									</option>
+								))}
 							</Select>
 						</Col>
 
 						<Col xs={12} md={4}>
-							<Input type="date" />
+							<label htmlFor="filter-date">
+								<Input
+									value={filter.date}
+									type="date"
+									onChange={(event) =>
+										setFilter((prev) => ({
+											...prev,
+											date: event.target.value,
+										}))
+									}
+								/>
+							</label>
 						</Col>
 
 						<Col xs={12} md={4}>
-							<Select>
-								<option value="all">Tất cả rạp</option>
-								<option value="hchv">Vimcom Hùng Vương</option>
+							<Select
+								value={filter.cinemaId}
+								onChange={(event) =>
+									setFilter((prev) => ({
+										...prev,
+										cinemaId: event.target.value,
+									}))
+								}
+							>
+								<option value="0">Tất cả rạp</option>
+								{cinemas.map((e) => (
+									<option key={e.id} value={e.id}>
+										{e.name}
+									</option>
+								))}
 							</Select>
 						</Col>
 					</Row>
 
-					{cinemaShows.map((e) => (
-						<CinemaByMovie key={e.id} details={e} />
-					))}
+					{shows.length ? (
+						shows.map((e) => (
+							<CinemaByMovie key={e.id} details={e} />
+						))
+					) : (
+						<p style={{ padding: 20, textAlign: 'center' }}>
+							Không có lịch chiếu hôm nay
+						</p>
+					)}
 				</Col>
 				<Col xs={12} md={3}>
 					<h3>PHIM ĐANG CHIẾU</h3>

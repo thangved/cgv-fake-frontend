@@ -1,4 +1,5 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
+import SeatPreview from '@/components/SeatPreview';
 import SeatRowForm from '@/forms/seatRow';
 import GetTicketLayout from '@/layouts/GetTicketLayout';
 import RoomService from '@/services/room.service';
@@ -22,7 +23,6 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import styles from './EditSeat.module.css';
-import SeatPreview from '@/components/SeatPreview';
 
 const alphabet = 'ABCDEDFGHIJKLMNOPQRSTUVWXYZ';
 

@@ -1,8 +1,8 @@
 import request from '@/utils/request';
 
 class CinemaService {
-	static getAll() {
-		return request.get('cinemas');
+	static getAll(params = {}) {
+		return request.get('cinemas', { params });
 	}
 
 	static create(payload) {

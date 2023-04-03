@@ -1,6 +1,6 @@
 import AccountForm from '@/forms/account';
 import AcpLayout from '@/layouts/AcpLayout';
-import AccountService from '@/services/account.servive';
+import AccountService from '@/services/account.service';
 import { Container } from '@mui/system';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';

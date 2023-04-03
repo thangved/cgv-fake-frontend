@@ -125,3 +125,58 @@
 	background: var(--primary);
 	cursor: pointer;
 }
+
+.details {
+	padding: 10px;
+	background-size: cover;
+	background-position: center;
+	position: relative;
+	display: flex;
+	color: #fff;
+}
+
+.details::before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #000000dd;
+}
+
+.texts {
+	padding: 0 20px;
+}
+
+.texts p {
+	margin: 10px 0;
+}
+
+.details > * {
+	position: relative;
+}
+
+.details img {
+	margin: 0;
+	width: 100px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.table {
+	width: 100%;
+	margin: 20px 0;
+	border-collapse: collapse;
+}
+
+.table th,
+.table td {
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	text-align: center;
+}

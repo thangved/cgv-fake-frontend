@@ -9,6 +9,10 @@ class ShowService {
 		return request.post('shows', payload);
 	}
 
+	static getSeats(id) {
+		return request.get(`/shows/${id}/seats`);
+	}
+
 	static update(id, payload) {
 		return request.put(`shows/${id}`, payload);
 	}

@@ -1,6 +1,6 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import AcpLayout from '@/layouts/AcpLayout';
-import AccountService from '@/services/account.servive';
+import AccountService from '@/services/account.service';
 import {
 	AddCircleOutlined,
 	DeleteOutlined,

@@ -295,7 +295,7 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 
 					{shows.length ? (
 						shows.map((e) => (
-							<CinemaByMovie key={e.id} details={e} />
+							<CinemaByMovie key={e.shows[0].id} details={e} />
 						))
 					) : (
 						<p style={{ padding: 20, textAlign: 'center' }}>
@@ -307,8 +307,8 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 					<h3>PHIM ĐANG CHIẾU</h3>
 
 					<Row>
-						{showNows.map((e, index) => (
-							<Col xs={12} key={index}>
+						{showNows.map((e) => (
+							<Col xs={12} key={e.id}>
 								<MovieCard details={e} />
 							</Col>
 						))}

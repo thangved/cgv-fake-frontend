@@ -1,0 +1,55 @@
+.wrapper {
+	padding-top: 20px;
+}
+
+.texts {
+	padding: 20px;
+}
+
+.texts p {
+	margin: 10px 0;
+}
+
+.invoice {
+	border: 1px solid #ddd;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.invoice .image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background-size: cover;
+	position: relative;
+}
+
+.invoice .image::before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #000000aa;
+}
+
+.invoice .image img {
+	position: relative;
+	width: 300px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.code {
+	margin: 20px 0;
+}

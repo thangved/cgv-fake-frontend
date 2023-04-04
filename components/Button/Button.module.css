@@ -9,13 +9,22 @@
 	margin: 5px 0;
 }
 
+.wrapper:hover {
+	background: #a54a00;
+}
+
 .wrapper.block {
 	width: 100%;
 }
+
 .outlined {
 	border-color: var(--primary);
 	background: transparent;
 	color: var(--primary);
+}
+
+.outlined:hover {
+	background: var(--primary);
 }
 
 .wrapper * {

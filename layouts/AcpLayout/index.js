@@ -5,6 +5,7 @@ import {
 	ArrowDropDownOutlined,
 	CalendarMonthOutlined,
 	ChairOutlined,
+	ConfirmationNumberOutlined,
 	HomeOutlined,
 	KeyboardDoubleArrowLeftOutlined,
 	KeyboardDoubleArrowRightOutlined,
@@ -139,6 +140,11 @@ export const adminNavItems = [
 		title: 'Lịch chiếu',
 		path: 'shows',
 		icon: <CalendarMonthOutlined />,
+	},
+	{
+		title: 'Hóa đơn',
+		path: 'invoices',
+		icon: <ConfirmationNumberOutlined />,
 	},
 ];
 

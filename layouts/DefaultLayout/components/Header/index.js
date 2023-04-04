@@ -85,24 +85,43 @@ const Header = () => {
 								</Link>
 
 								<Row>
-									{moviesShowNow.map((e, index) => (
-										<Col xs={12} md={6} lg={3} key={index}>
-											<MovieCard dark details={e} />
-										</Col>
-									))}
+									{[...moviesShowNow]
+										.slice(0, 4)
+										.map((e, index) => (
+											<Col
+												xs={12}
+												md={6}
+												lg={3}
+												key={index}
+											>
+												<MovieCard dark details={e} />
+											</Col>
+										))}
 								</Row>
 
 								<Link href="/movies?show=coming">
 									<h4>PHIM ĐANG CHIẾU</h4>
 								</Link>
 								<Row>
-									{moviesShowComing.map((e, index) => (
-										<Col xs={12} md={6} lg={3} key={index}>
-											<MovieCard dark details={e} />
-										</Col>
-									))}
+									{[...moviesShowComing]
+										.slice(0, 4)
+										.map((e, index) => (
+											<Col
+												xs={12}
+												md={6}
+												lg={3}
+												key={index}
+											>
+												<MovieCard dark details={e} />
+											</Col>
+										))}
 								</Row>
 							</div>
+
+							<Link href="/prices">
+								<span>Giá vé</span>
+							</Link>
+
 							<Link href="/about-us">
 								<span>Giới thiệu</span>
 							</Link>

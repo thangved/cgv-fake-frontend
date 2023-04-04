@@ -12,7 +12,7 @@ export async function getServerSideProps() {
 
 	return {
 		props: {
-			moviesShowNow,
+			moviesShowNow: moviesShowNow.slice(0, 4),
 		},
 	};
 }

@@ -1,0 +1,11 @@
+.wrapper table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.wrapper td,
+.wrapper th {
+	padding: 10px;
+	text-align: center;
+	border: 1px solid #ddd;
+}

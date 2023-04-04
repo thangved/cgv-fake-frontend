@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Head from 'next/head';
 
 config.autoAddCss = false;
 
@@ -54,6 +55,9 @@ const App = ({ Component, pageProps }) => {
 				<Authentication />
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
 					<Layout>
+						<Head>
+							<title>CGV Fake</title>
+						</Head>
 						<Component {...pageProps} />
 					</Layout>
 				</LocalizationProvider>

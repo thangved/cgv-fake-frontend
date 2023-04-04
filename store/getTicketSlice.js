@@ -27,9 +27,14 @@ const getTicketSlice = createSlice({
 
 			return state;
 		},
+		reset(state) {
+			state.details = [];
+			state.total = 0;
+			return state;
+		},
 	},
 });
 
-export const { addTicket } = getTicketSlice.actions;
+export const { addTicket, reset } = getTicketSlice.actions;
 
 export default getTicketSlice;

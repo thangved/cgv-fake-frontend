@@ -1,22 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
+import Button from '@/components/Button';
 import LoadingOverlay from '@/components/LoadingOverlay';
+import Modal from '@/components/Modal';
 import GetTicketLayout from '@/layouts/GetTicketLayout';
 import ShowService from '@/services/show.service';
-import { addTicket } from '@/store/getTicketSlice';
+import { addTicket, reset } from '@/store/getTicketSlice';
 import getTicketStore from '@/store/getTicketStore';
 import { currencyFormatter } from '@/utils/formatter';
-import { faAngleRight, faClock } from '@fortawesome/free-solid-svg-icons';
+import {
+	faAngleRight,
+	faClock,
+	faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import styles from './Ticket.module.css';
-import Modal from '@/components/Modal';
-import Button from '@/components/Button';
+import InvoiceService from '@/services/invoice.service';
+import { toast } from 'react-hot-toast';
 
 const SeatRow = ({ row }) => {
 	const dispatch = useDispatch();
@@ -32,7 +38,7 @@ const SeatRow = ({ row }) => {
 					className={clsx(styles.seat, {
 						[styles.booked]: seat.booked,
 						[styles.selected]: !!details.find(
-							(e) => e.id == row.id && e.seatId === seat.id
+							(e) => e.rowId == row.id && e.seatId === seat.id
 						),
 					})}
 					style={{
@@ -45,7 +51,7 @@ const SeatRow = ({ row }) => {
 							addTicket({
 								label: row.label,
 								seatId: seat.id,
-								id: row.id,
+								rowId: row.id,
 								price: row.price,
 								type: row.type,
 							})
@@ -64,6 +70,9 @@ const Ticket = () => {
 	const router = useRouter();
 	const { details, total } = useSelector((state) => state.getTicket);
 	const [openConfirm, setOpenConfirm] = useState(false);
+	const dispatch = useDispatch();
+
+	const [loading, setLoading] = useState(false);
 
 	const mainRef = useRef();
 	const { data: showDetails, isLoading } = useQuery(
@@ -76,6 +85,26 @@ const Ticket = () => {
 		() => ShowService.getSeats(router.query.showId),
 		{ initialData: [] }
 	);
+
+	const handleCreateInvoice = async () => {
+		try {
+			setLoading(true);
+			const res = await InvoiceService.create({
+				showId: showDetails.id,
+				details,
+			});
+			router.push(`invoices/${res.id}`);
+		} catch (error) {
+			toast.error(error);
+			dispatch(reset());
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		dispatch(reset());
+	}, [dispatch]);
 
 	return (
 		<>
@@ -140,7 +169,6 @@ const Ticket = () => {
 					</div>
 				</div>
 			</div>
-			{isLoading && <LoadingOverlay />}
 
 			<Modal
 				title="Xác nhận đặt vé"
@@ -156,6 +184,7 @@ const Ticket = () => {
 							<th>Ghế</th>
 							<th>Loại ghế</th>
 							<th>Thành tiền</th>
+							<th>Xóa</th>
 						</tr>
 					</thead>
 
@@ -169,6 +198,12 @@ const Ticket = () => {
 								</td>
 								<td>{e.type.name}</td>
 								<td>{currencyFormatter.format(e.price)}</td>
+								<td>
+									<FontAwesomeIcon
+										icon={faTimes}
+										onClick={() => dispatch(addTicket(e))}
+									/>
+								</td>
 							</tr>
 						))}
 					</tbody>
@@ -176,16 +211,21 @@ const Ticket = () => {
 					<tfoot>
 						<tr>
 							<td colSpan={3}>Tổng</td>
-							<td>{currencyFormatter.format(total)}</td>
+							<td colSpan={2}>
+								{currencyFormatter.format(total)}
+							</td>
 						</tr>
 					</tfoot>
 				</table>
 
-				<Button block>Đặt vé</Button>
+				<Button block onClick={handleCreateInvoice}>
+					Đặt vé
+				</Button>
 				<Button block outlined onClick={() => setOpenConfirm(false)}>
 					Hủy
 				</Button>
 			</Modal>
+			{(isLoading || loading) && <LoadingOverlay />}
 		</>
 	);
 };

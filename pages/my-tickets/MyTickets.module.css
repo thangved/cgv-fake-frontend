@@ -1,0 +1,16 @@
+.wrapper .invoice {
+	padding: 20px;
+	border: 1px solid #ddd;
+	margin: 10px 0;
+	display: flex;
+	text-decoration: none;
+	color: inherit;
+}
+
+.texts {
+	padding: 0 10px;
+}
+
+.texts p {
+	margin: 10px 0;
+}

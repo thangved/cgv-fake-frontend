@@ -14,7 +14,11 @@ export async function getServerSideProps() {
 	const moviesShowComing = await MovieService.getAll({ show: 'coming' });
 
 	return {
-		props: { moviesShowNow, moviesShowComing, banners },
+		props: {
+			moviesShowNow: moviesShowNow.slice(0, 6),
+			moviesShowComing: moviesShowComing.slice(0, 6),
+			banners,
+		},
 	};
 }
 

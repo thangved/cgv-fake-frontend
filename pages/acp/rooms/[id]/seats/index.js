@@ -221,7 +221,7 @@ const EditSeats = () => {
 				payload={{
 					label: alphabet[seatRows.length],
 					quantity: 15,
-					seatTypeId: 1,
+					seatTypeId: 0,
 					roomId: router.query.id,
 				}}
 				open={openCreateModal}

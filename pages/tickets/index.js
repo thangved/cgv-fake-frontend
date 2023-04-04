@@ -151,6 +151,8 @@ const Ticket = () => {
 							<p>Rạp: {showDetails.room.cinema.name}</p>
 
 							<p>Phòng chiếu: {showDetails.room.name}</p>
+
+							<p>{showDetails.language.name}</p>
 						</div>
 					</div>
 				)}
@@ -159,14 +161,15 @@ const Ticket = () => {
 					<div className={styles.price}>
 						Tổng: {currencyFormatter.format(total)}
 					</div>
-					<div
+					<button
+						disabled={!details.length}
 						className={styles.button}
 						onClick={() => setOpenConfirm(true)}
 					>
 						Thanh toán
 						<span style={{ width: 10 }}></span>
 						<FontAwesomeIcon icon={faAngleRight} />
-					</div>
+					</button>
 				</div>
 			</div>
 

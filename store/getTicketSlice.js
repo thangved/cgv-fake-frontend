@@ -8,16 +8,17 @@ const getTicketSlice = createSlice({
 	},
 	reducers: {
 		addTicket(state, { payload }) {
-			if (
-				!state.details.find(
-					(e) => e.id === payload.id && e.seatId === payload.seatId
-				)
-			) {
-				state.details = [...state.details, payload];
-			} else {
+			const existing = !!state.details.find(
+				(e) => e.rowId === payload.rowId && e.seatId === payload.seatId
+			);
+
+			if (existing) {
 				state.details = state.details.filter(
-					(e) => e.id !== payload.id || e.seatId !== payload.seatId
+					(e) =>
+						e.rowId !== payload.rowId || e.seatId !== payload.seatId
 				);
+			} else {
+				state.details = [...state.details, payload];
 			}
 
 			state.total = state.details.reduce(

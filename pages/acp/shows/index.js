@@ -7,12 +7,12 @@ import RoomService from '@/services/room.service';
 import ShowService from '@/services/show.service';
 import { Scheduler } from '@aldabil/react-scheduler';
 import { Box, Container, FormControl, InputLabel, Select } from '@mui/material';
+import { vi } from 'date-fns/locale';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
-import { vi } from 'date-fns/locale';
 
 const Shows = () => {
 	const router = useRouter();
@@ -88,6 +88,23 @@ const Shows = () => {
 				</Row>
 
 				<Scheduler
+					onEventDrop={async (
+						droppedOn,
+						updatedEvent,
+						originalEvent
+					) => {
+						try {
+							await ShowService.update(updatedEvent.event_id, {
+								startAt: updatedEvent.start,
+								endAt: updatedEvent.end,
+							});
+
+							return updatedEvent;
+						} catch (error) {
+							toast.error(error);
+							return originalEvent;
+						}
+					}}
 					key={`${cinemaId}-${roomId}-${shows.length}`}
 					view="week"
 					events={shows.map((e) => ({

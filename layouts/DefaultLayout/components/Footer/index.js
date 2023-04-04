@@ -33,6 +33,15 @@ const Footer = () => {
 							</li>
 						</ul>
 					</Col>
+
+					<Col xs={12} md={4}>
+						<h2>RẠP</h2>
+						<ul>
+							<li>
+								<Link href="/prices">Giá vé</Link>
+							</li>
+						</ul>
+					</Col>
 				</Row>
 
 				<Row

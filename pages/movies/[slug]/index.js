@@ -5,7 +5,6 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import Modal from '@/components/Modal';
 import MovieCard from '@/components/MovieCard';
 import Select from '@/components/Select';
-import MovieForm from '@/forms/movie';
 import CinemaService from '@/services/cinema.service';
 import MovieService from '@/services/movie.service';
 import ProvinceService from '@/services/province.service';
@@ -22,6 +21,12 @@ import ReactPlayer from 'react-player';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import styles from './Movie.module.css';
+import dynamic from 'next/dynamic';
+
+const MovieForm = dynamic(() => import('@/forms/movie'), {
+	ssr: false,
+	loading: () => <LoadingOverlay />,
+});
 
 export async function getServerSideProps(context) {
 	const movieDetails = await MovieService.getByIdOrSlug(context.query.slug);
@@ -31,7 +36,7 @@ export async function getServerSideProps(context) {
 	return {
 		props: {
 			movieDetails,
-			showNows,
+			showNows: showNows.slice(0, 4),
 			provinces,
 		},
 	};
@@ -77,6 +82,10 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 	useEffect(() => {
 		setFilter((prev) => ({ ...prev, cinemaId: 0 }));
 	}, [filter.provinceId]);
+
+	useEffect(() => {
+		setEditing(false);
+	}, [movieDetails.id]);
 
 	if (!currentUser) return <LoadingOverlay />;
 

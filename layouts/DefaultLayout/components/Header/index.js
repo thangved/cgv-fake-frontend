@@ -100,7 +100,7 @@ const Header = () => {
 								</Row>
 
 								<Link href="/movies?show=coming">
-									<h4>PHIM ĐANG CHIẾU</h4>
+									<h4>PHIM SẮP CHIẾU</h4>
 								</Link>
 								<Row>
 									{[...moviesShowComing]

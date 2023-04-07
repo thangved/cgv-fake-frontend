@@ -10,9 +10,12 @@ import { Col, Row } from 'react-grid-system';
 import { useQuery } from 'react-query';
 import CreateInCinema from '../../../../components/CreateInCinema';
 import styles from './CreateShow.module.css';
+import { useEffect, useRef } from 'react';
+import autoAnimate from '@formkit/auto-animate';
 
 const CreateShow = () => {
 	const router = useRouter();
+	const parent = useRef(null);
 
 	const { data: movieDetails, isLoading } = useQuery(
 		['movie', router.query.movieId],
@@ -23,6 +26,10 @@ const CreateShow = () => {
 		['cinemas'],
 		CinemaService.getAll
 	);
+
+	useEffect(() => {
+		parent.current && autoAnimate(parent.current);
+	}, [parent]);
 
 	if (isLoading || !movieDetails || ld2) return <LoadingOverlay />;
 
@@ -66,7 +73,7 @@ const CreateShow = () => {
 						/>
 					</Col>
 
-					<Col xs={12} md={6}>
+					<Col xs={12} md={6} ref={parent}>
 						{cinemas.map((e) => (
 							<CreateInCinema
 								key={e.id}

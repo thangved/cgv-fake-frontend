@@ -1,10 +1,16 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './Tabs.module.css';
+import autoAnimate from '@formkit/auto-animate';
 
 const Tabs = ({ items = [], initialIndex = 0 }) => {
 	const [currentIndex, setCurrentIndex] = useState(initialIndex);
+	const parent = useRef(null);
+
+	useEffect(() => {
+		parent.current && autoAnimate(parent.current);
+	}, [parent]);
 
 	return (
 		<div className={styles.wrapper}>
@@ -25,7 +31,7 @@ const Tabs = ({ items = [], initialIndex = 0 }) => {
 				))}
 			</div>
 
-			<div className={styles.content} key={currentIndex}>
+			<div className={styles.content} key={currentIndex} ref={parent}>
 				{items[currentIndex].component}
 			</div>
 		</div>

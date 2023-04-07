@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import dayjs from 'dayjs';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 import { Col, Container, Row } from 'react-grid-system';
 import ReactPlayer from 'react-player';
@@ -22,6 +22,7 @@ import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import styles from './Movie.module.css';
 import dynamic from 'next/dynamic';
+import autoAnimate from '@formkit/auto-animate';
 
 const MovieForm = dynamic(() => import('@/forms/movie'), {
 	ssr: false,
@@ -50,6 +51,7 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 		date: dayjs(new Date()).format('YYYY-MM-DD'),
 		cinemaId: 0,
 	});
+	const parent = useRef(null);
 
 	const { data: cinemas } = useQuery(
 		['cinemas', 'provinceId', filter.provinceId],
@@ -87,6 +89,10 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 		setEditing(false);
 	}, [movieDetails.id]);
 
+	useEffect(() => {
+		parent.current && autoAnimate(parent.current);
+	}, [parent]);
+
 	if (!currentUser) return <LoadingOverlay />;
 
 	return (
@@ -95,7 +101,7 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 				<title>Đặt vé {movieDetails.title}</title>
 			</Head>
 			<Row>
-				<Col xs={12} md={9}>
+				<Col xs={12} md={9} ref={parent}>
 					{editing ? (
 						<MovieForm
 							initialValues={{

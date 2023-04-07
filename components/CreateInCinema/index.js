@@ -13,14 +13,17 @@ import {
 } from '@mui/material';
 import { DataGrid, GridActionsCellItem, viVN } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import styles from './CreateInCinema.module.css';
+import autoAnimate from '@formkit/auto-animate';
+import { addMinutes } from 'date-fns';
 
 const CreateInCinema = ({ movieDetails, cinemaDetails }) => {
 	const [adding, setAdding] = useState(false);
 	const [deleteId, setDeleteId] = useState(null);
+	const parent = useRef(null);
 
 	const {
 		data: shows,
@@ -56,11 +59,15 @@ const CreateInCinema = ({ movieDetails, cinemaDetails }) => {
 		}
 	};
 
+	useEffect(() => {
+		parent.current && autoAnimate(parent.current);
+	}, [parent]);
+
 	if (isLoading) return <LoadingOverlay />;
 
 	return (
 		<>
-			<div className={styles.wrapper}>
+			<div className={styles.wrapper} ref={parent}>
 				<div className={styles.header}>
 					<span>{cinemaDetails.name}</span>
 					<Button onClick={() => setAdding(!adding)}>
@@ -76,8 +83,13 @@ const CreateInCinema = ({ movieDetails, cinemaDetails }) => {
 								movieId: movieDetails.id,
 								roomId: 0,
 								languageId: 0,
-								startAt: '0000-00-00T00:00',
-								endAt: '0000-00-00T00:00',
+								startAt: dayjs(new Date()).format(
+									'YYYY-MM-DDTHH:mm'
+								),
+								endAt: addMinutes(
+									new Date(),
+									movieDetails.minutes
+								),
 								cinemaId: cinemaDetails.id,
 							}}
 							onSubmit={handleCreate}

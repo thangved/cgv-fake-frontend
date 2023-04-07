@@ -1,4 +1,5 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
+import autoAnimate from '@formkit/auto-animate';
 import {
 	AccountCircleOutlined,
 	ArrowBackIosNewOutlined,
@@ -21,7 +22,7 @@ import clsx from 'clsx';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './AcpLayout.module.css';
 
@@ -190,6 +191,11 @@ const AcpLayout = ({ children }) => {
 	const router = useRouter();
 	const currentUser = useSelector((state) => state.user.value);
 	const [open, setOpen] = useState(true);
+	const parent = useRef(null);
+
+	useEffect(() => {
+		parent.current && autoAnimate(parent.current);
+	}, [parent]);
 
 	if (!currentUser) return <LoadingOverlay />;
 
@@ -223,7 +229,7 @@ const AcpLayout = ({ children }) => {
 							[styles.open]: open,
 						})}
 					>
-						<div className={styles.items}>
+						<div className={styles.items} ref={parent}>
 							{adminNavItems.map((e) => (
 								<Item key={e.path} item={e} />
 							))}

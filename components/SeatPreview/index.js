@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react';
 import styles from './SeatPreview.module.css';
+import autoAnimate from '@formkit/auto-animate';
 
 const SeatRow = ({ quantity, color, label }) => {
 	const element = [];
@@ -22,8 +24,14 @@ const SeatRow = ({ quantity, color, label }) => {
 };
 
 const SeatPreview = ({ rows }) => {
+	const parent = useRef(null);
+
+	useEffect(() => {
+		parent.current && autoAnimate(parent.current);
+	}, [parent]);
+
 	return (
-		<div className={styles.room}>
+		<div className={styles.room} ref={parent}>
 			<div className={styles.screen}>
 				Màn hình
 				<div className={styles.line}></div>

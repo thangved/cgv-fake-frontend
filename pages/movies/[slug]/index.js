@@ -93,8 +93,6 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 		parent.current && autoAnimate(parent.current);
 	}, [parent]);
 
-	if (!currentUser) return <LoadingOverlay />;
-
 	return (
 		<Container className={styles.wrapper}>
 			<Head>
@@ -119,7 +117,7 @@ const Movie = ({ movieDetails, showNows, provinces }) => {
 					) : (
 						<>
 							<Row style={{ position: 'relative' }}>
-								{currentUser.admin && (
+								{currentUser?.admin && (
 									<Button
 										outlined
 										style={{

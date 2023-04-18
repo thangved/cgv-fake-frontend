@@ -45,7 +45,7 @@ const Rooms = () => {
 	return (
 		<>
 			<Container>
-				<h2 style={{ margin: '20px 0' }}>Rạp phim</h2>
+				<h2 style={{ margin: '20px 0' }}>Hóa đơn</h2>
 				<DataGrid
 					autoHeight
 					columns={[

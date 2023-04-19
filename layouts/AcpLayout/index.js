@@ -1,5 +1,6 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import autoAnimate from '@formkit/auto-animate';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import {
 	AccountCircleOutlined,
 	ArrowBackIosNewOutlined,
@@ -11,6 +12,7 @@ import {
 	KeyboardDoubleArrowLeftOutlined,
 	KeyboardDoubleArrowRightOutlined,
 	LanguageOutlined,
+	LineAxisOutlined,
 	ListAltOutlined,
 	LocationCityOutlined,
 	MovieOutlined,
@@ -27,6 +29,11 @@ import { useSelector } from 'react-redux';
 import styles from './AcpLayout.module.css';
 
 export const adminNavItems = [
+	{
+		title: 'Thống kê',
+		path: 'dashboard',
+		icon: <LineAxisOutlined />,
+	},
 	{
 		title: 'Banner',
 		path: 'banners',
@@ -149,28 +156,34 @@ export const adminNavItems = [
 	},
 ];
 
-const Item = ({ item }) => {
-	const [open, setOpen] = useState(false);
+const Item = ({ item, open }) => {
+	const [openChildren, setOpenChildren] = useState(false);
+	const [parent1] = useAutoAnimate();
+	const [parent2] = useAutoAnimate();
 
 	return (
-		<>
+		<div ref={parent1}>
 			<div className={styles.item} key={item.path}>
-				<Link href={`/acp/${item.path}`} className={styles.left}>
+				<Link
+					ref={parent2}
+					href={`/acp/${item.path}`}
+					className={styles.left}
+				>
 					{item.icon}
-					<span className={styles.text}>{item.title}</span>
+					{open && <span className={styles.text}>{item.title}</span>}
 				</Link>
 				{item.children && (
 					<span
-						onClick={() => setOpen(!open)}
+						onClick={() => setOpenChildren(!openChildren)}
 						className={clsx(styles.btn, {
-							[styles.open]: open,
+							[styles.open]: openChildren,
 						})}
 					>
 						<ArrowDropDownOutlined />
 					</span>
 				)}
 			</div>
-			{open && (
+			{openChildren && (
 				<>
 					{item.children.map((e) => (
 						<Link
@@ -183,7 +196,7 @@ const Item = ({ item }) => {
 					))}
 				</>
 			)}
-		</>
+		</div>
 	);
 };
 
@@ -231,7 +244,7 @@ const AcpLayout = ({ children }) => {
 					>
 						<div className={styles.items} ref={parent}>
 							{adminNavItems.map((e) => (
-								<Item key={e.path} item={e} />
+								<Item key={e.path} item={e} open={open} />
 							))}
 						</div>
 

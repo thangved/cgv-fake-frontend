@@ -12,6 +12,8 @@ import {
 	Select,
 	TextField,
 } from '@mui/material';
+import { DateField } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 import { Formik } from 'formik';
 import { Col, Row } from 'react-grid-system';
 import { useQuery } from 'react-query';
@@ -23,7 +25,7 @@ const AccountForm = ({
 		email: '',
 		avatar: 'http://www.gravatar.com/avatar/?d=identicon',
 		genderId: 0,
-		dateOfBirth: null,
+		dateOfBirth: new Date(),
 		password: null,
 		admin: false,
 	},
@@ -152,17 +154,19 @@ const AccountForm = ({
 						</Select>
 					</FormControl>
 
-					<TextField
+					<DateField
 						style={{ marginBottom: 20 }}
 						size="small"
 						fullWidth
-						type="date"
+						format="DD/MM/YYYY"
 						label="Ngày sinh"
 						name="dateOfBirth"
-						onChange={handleChange}
+						onChange={(value) => {
+							setFieldValue('dateOfBirth', value.$d);
+						}}
 						error={!!errors.dateOfBirth}
 						helperText={errors.dateOfBirth}
-						value={values.dateOfBirth}
+						value={dayjs(values.dateOfBirth)}
 					/>
 
 					<FormControlLabel

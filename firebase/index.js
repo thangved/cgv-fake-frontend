@@ -1,7 +1,7 @@
+import FileService from '@/services/file.service';
+import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -24,14 +24,10 @@ if (typeof window !== 'undefined') {
 auth.languageCode = 'vi';
 
 const uploadFile = async (file) => {
-	const storage = getStorage(app);
-	const storageRef = ref(storage, `uploads/${Date.now()}`);
-
-	await uploadBytes(storageRef, file);
-
-	return await getDownloadURL(storageRef);
+	const res = await FileService.upload(file);
+	return res.filename;
 };
 
-export { app, auth, analytics, uploadFile };
+export { analytics, app, auth, uploadFile };
 
 export default app;

@@ -66,12 +66,8 @@ const MovieForm = ({
 				director: Yup.string().required('Vui lòng nhập tên đạo diễn'),
 				countries: Yup.array().of(Yup.number()),
 				categories: Yup.array().of(Yup.number()),
-				verPoster: Yup.string()
-					.required('Vui lòng tải poster lên')
-					.url('Ảnh không hợp lệ'),
-				horPoster: Yup.string()
-					.required('Vui lòng tải poster lên')
-					.url('Ảnh không hợp lệ'),
+				verPoster: Yup.string().required('Vui lòng tải poster lên'),
+				horPoster: Yup.string().required('Vui lòng tải poster lên'),
 				trailer: Yup.string()
 					.required('Vui lòng nhập link trailer')
 					.url('Link trailer không hợp lệ'),

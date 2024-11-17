@@ -15,6 +15,15 @@ const nextConfig = {
 			transform: '@mui/icons-material/{{member}}',
 		},
 	},
+	async rewrites() {
+		return [
+			{
+				source: '/api/static/uploads/:path',
+				destination: `${process.env.NEXT_PUBLIC_BACKENDURL}static/uploads/:path`,
+				basePath: false,
+			},
+		];
+	},
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
